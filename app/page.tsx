@@ -1,0 +1,308 @@
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Input } from '@nextui-org/input';
+import {
+    Accordion,
+    AccordionItem,
+    Button,
+    Radio,
+    RadioGroup,
+    Select,
+    SelectItem,
+    Slider,
+    Textarea,
+    Tooltip,
+} from '@nextui-org/react';
+import { Atom, Frown, Info, Smile, TriangleAlert, Zap } from 'lucide-react';
+import { Controller, useForm } from 'react-hook-form';
+import { generationSchema, models } from './constants/schemas';
+import { z } from 'zod';
+import generate from './actions/generate';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Greeter from './components/Greeter';
+
+export default function Home() {
+    const router = useRouter();
+    const [loader, setLoader] = useState(false);
+    const [failed, setFailed] = useState(false);
+
+    const {
+        control,
+        register,
+        handleSubmit,
+        watch,
+        setError,
+        reset,
+        formState: { errors },
+    } = useForm<z.infer<typeof generationSchema>>({
+        resolver: zodResolver(generationSchema),
+    });
+
+    useEffect(() => {
+        const localModelRaw = z
+            .enum(models)
+            .safeParse(localStorage.getItem('model'));
+        if (localModelRaw.error) {
+            localStorage.removeItem('model');
+        }
+        reset({
+            topic: '',
+            customInstructions: '',
+            questionCount: 5,
+            testType: 'multiple-choice',
+            difficulty: 5,
+            choiceCount: 4,
+            model: localModelRaw.data!,
+            azureDeploymentName:
+                localStorage.getItem('azureDeploymentName') || '',
+            azureResourceName: localStorage.getItem('azureResourceName') || '',
+            apiKey: localStorage.getItem('apiKey') || '',
+        });
+    }, []);
+
+    async function onSubmit(data: z.infer<typeof generationSchema>) {
+        setLoader(true);
+        setFailed(false);
+        const generation = await generate(data);
+        if (!generation || generation.failed) {
+            setFailed(true);
+        } else if (generation.errors) {
+            Object.entries(generation.errors).forEach(([field, error]) => {
+                if (error) {
+                    setError(field as keyof typeof errors, {
+                        message: error[0],
+                    });
+                }
+            });
+        } else if (generation.document) {
+            if (data.apiKey) {
+                localStorage.setItem('model', data.model);
+                localStorage.setItem('apiKey', data.apiKey);
+                localStorage.setItem(
+                    'azureResourceName',
+                    data.azureResourceName,
+                );
+                localStorage.setItem(
+                    'azureDeploymentName',
+                    data.azureDeploymentName,
+                );
+            }
+            localStorage.setItem(
+                'questions',
+                JSON.stringify(generation.document),
+            );
+            router.push('/document');
+        }
+        setLoader(false);
+    }
+
+    const modelNames = {
+        'openai-4o': 'GPT4o (OpenAI)',
+        'openai-4o-mini': 'GPT4o-Mini (OpenAI)',
+        'openai-4-turbo': 'GPT4-Turbo (OpenAI)',
+        'anthropic-3.5-sonnet': 'Claude 3.5 Sonnet (Anthropic)',
+        'anthropic-3-haiku': 'Claude 3 Haiku (Anthropic)',
+        'anthropic-3-opus': 'Claude 3 Opus (Anthropic)',
+        'azure-openai': 'Azure OpenAI',
+    };
+
+    const watchTestType = watch('testType');
+    const watchModel = watch('model');
+
+    return (
+        <>
+            <Greeter />
+            <div className="text-center w-2/3 m-auto my-8">
+                <h1 className="text-3xl mb-2 font-black">Outrecta</h1>
+                <p>
+                    Generate tests about any topic using to power of language
+                    models!
+                </p>
+            </div>
+            <main>
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="space-y-6 mb-4"
+                >
+                    <Input
+                        label="Topic"
+                        isRequired
+                        isInvalid={!!errors.topic}
+                        errorMessage={errors.topic?.message}
+                        {...register('topic')}
+                    />
+                    <Input
+                        label="Question Count"
+                        isRequired
+                        endContent={
+                            <Tooltip
+                                content={
+                                    <span className="text-center">
+                                        The more questions, the longer and more
+                                        expensive it will be to generate
+                                        <br /> (due to increased requests to the
+                                        model provider).
+                                    </span>
+                                }
+                            >
+                                <Info size={18} className="cursor-default" />
+                            </Tooltip>
+                        }
+                        isInvalid={!!errors.questionCount}
+                        errorMessage={errors.questionCount?.message}
+                        {...register('questionCount', {
+                            valueAsNumber: true,
+                        })}
+                    />
+                    <Select
+                        label="Select the model provider"
+                        isRequired
+                        isInvalid={!!errors.model}
+                        errorMessage={errors.model?.message}
+                        {...register('model')}
+                    >
+                        {Object.entries(modelNames).map(([key, value]) => (
+                            <SelectItem key={key} value={key}>
+                                {value}
+                            </SelectItem>
+                        ))}
+                    </Select>
+                    {watchModel === 'azure-openai' && (
+                        <>
+                            <Input
+                                label="Azure Resource Name"
+                                isRequired
+                                isInvalid={!!errors.azureResourceName}
+                                errorMessage={errors.azureResourceName?.message}
+                                {...register('azureResourceName')}
+                            />
+                            <Input
+                                label="Azure Deployment Name"
+                                isRequired
+                                isInvalid={!!errors.azureDeploymentName}
+                                errorMessage={
+                                    errors.azureDeploymentName?.message
+                                }
+                                {...register('azureDeploymentName')}
+                            />
+                        </>
+                    )}
+                    <Input
+                        label="API Key"
+                        isRequired
+                        type="password"
+                        isInvalid={!!errors.apiKey}
+                        errorMessage={errors.apiKey?.message}
+                        {...register('apiKey')}
+                    />
+                    <Controller
+                        name="testType"
+                        control={control}
+                        render={({ field }) => (
+                            <RadioGroup
+                                label="Select test type"
+                                isRequired
+                                isInvalid={!!errors.testType}
+                                errorMessage={errors.testType?.message}
+                                {...field}
+                            >
+                                <Radio value="multiple-choice">
+                                    Multiple Choice Questions
+                                </Radio>
+                                <Radio value="open-ended">
+                                    Open-ended Questions
+                                </Radio>
+                            </RadioGroup>
+                        )}
+                    />
+                    <Controller
+                        name="difficulty"
+                        control={control}
+                        render={({ field }) => (
+                            <Slider
+                                label="Difficulty"
+                                color="danger"
+                                step={1}
+                                maxValue={10}
+                                minValue={0}
+                                defaultValue={5}
+                                showSteps={true}
+                                startContent={<Smile />}
+                                endContent={<Frown />}
+                                {...field}
+                            />
+                        )}
+                    />
+
+                    <Accordion>
+                        <AccordionItem
+                            key="1"
+                            aria-label="Advanced Options"
+                            title="Advanced Options"
+                            startContent={<Zap size={22} />}
+                        >
+                            <div className="space-y-6">
+                                {watchTestType === 'multiple-choice' && (
+                                    <Input
+                                        label="Choice count per question"
+                                        isInvalid={!!errors.choiceCount}
+                                        errorMessage={
+                                            errors.choiceCount?.message
+                                        }
+                                        {...register('choiceCount')}
+                                    />
+                                )}
+                                <Input
+                                    label="Manual Test Title"
+                                    isInvalid={!!errors.manualTitle}
+                                    errorMessage={errors.manualTitle?.message}
+                                    {...register('manualTitle')}
+                                />
+                                <Textarea
+                                    label="Custom instructions"
+                                    placeholder="Enter your instructions"
+                                    minRows={2}
+                                    endContent={
+                                        <Tooltip content="Beware that custom instructions may break the generation.">
+                                            <TriangleAlert
+                                                size={18}
+                                                className="cursor-default"
+                                            />
+                                        </Tooltip>
+                                    }
+                                    isInvalid={!!errors.customInstructions}
+                                    errorMessage={
+                                        errors.customInstructions?.message
+                                    }
+                                    {...register('customInstructions')}
+                                />
+                            </div>
+                        </AccordionItem>
+                    </Accordion>
+
+                    {failed && (
+                        <p className="mb-4 text-red-500">
+                            Generation Failed. <br />
+                            Please try again. Changing options may help.
+                        </p>
+                    )}
+                    <Button
+                        type="submit"
+                        color="primary"
+                        endContent={<Atom size={16} />}
+                        isLoading={loader}
+                    >
+                        Generate
+                    </Button>
+                    {loader && (
+                        <p className="mt-2 text-sm contrast-50">
+                            This may take a while.
+                        </p>
+                    )}
+                </form>
+            </main>
+        </>
+    );
+}
