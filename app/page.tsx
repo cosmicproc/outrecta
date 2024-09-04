@@ -68,7 +68,7 @@ export default function Home() {
             creativity: 50,
             choiceCount: 4,
         });
-    }, []);
+    }, [reset]);
 
     async function onSubmit(data: z.infer<typeof generationSchema>) {
         setLoader(true);

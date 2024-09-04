@@ -36,9 +36,8 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                     output: 'array',
                     schema: genQuestionSchema(data.choiceCount, data.testType),
                     system: dedent`
-                            Use LaTeX (KaTeX) with mhchem when useful. Math expressions are preferred to be in LaTeX.
-                            Always wrap LaTeX with delimiters and escape backslashes.
-                            LaTeX can be also used just to make text bold, italic, and underlined for emphasis.
+                            Use LaTex (KaTeX) with mhchem and Markdown for formatting.
+                            Always wrap any LaTeX in dollar signs ($) and escape backslashes.
                         `,
                     prompt: dedent`
                         Generate ${data.questionCount} "${data.topic}" questions.

@@ -17,9 +17,13 @@
         "@nextui-org/react": "^2.4.6",
         "ai": "^3.3.26",
         "dedent": "^1.5.3",
+        "dompurify": "^3.1.6",
         "framer-motion": "^11.4.0",
+        "highlight.js": "^11.10.0",
         "js-cookie": "^3.0.5",
         "katex": "^0.16.11",
+        "marked": "^14.1.1",
+        "marked-highlight": "^2.1.4",
         "next": "^14.2.7",
         "next-themes": "^0.3.0",
         "react": "^18",
@@ -28,6 +32,7 @@
         "zod": "^3.23.8"
     },
     "devDependencies": {
+        "@types/dompurify": "^3.0.5",
         "@types/js-cookie": "^3.0.6",
         "@types/katex": "^0.16.7",
         "@types/node": "^22",

@@ -62,10 +62,10 @@ export const genQuestionSchema = (
 ) =>
     z
         .object({
-            preQuestionField: z.string().optional().describe(dedent`
+            preQuestionField: z.string().describe(dedent`
                 Text placed above the question statement. 
-                Can be used for providing material like reading passages, math expressions, and alike.
-                Not for the question itself. Prefer to put the material bare. Don't introduce it like "Read the following:".
+                Can be used for material like reading passages, math expressions, code snippets and alike.
+                Not for the question itself.
             `),
             questionStatement: z
                 .string()
