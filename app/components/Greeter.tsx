@@ -51,7 +51,8 @@ export default function Greeter() {
                                     OpenAI API
                                 </Link>
                                 . Choose the model provider you prefer and enter
-                                your API key first.
+                                your API key first. Your API key will not leave
+                                your device.
                             </p>
                             <h3 className="text-large font-bold">Warning!</h3>
                             <p>

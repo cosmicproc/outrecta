@@ -38,6 +38,7 @@ export const generationSchema = z.object({
     azureResourceName: z.string(),
     azureDeploymentName: z.string(),
     apiKey: z.string(),
+    creativity: z.number().int().min(0).max(100),
     manualTitle: z
         .string()
         .max(200, {
@@ -61,12 +62,15 @@ export const genQuestionSchema = (
 ) =>
     z
         .object({
-            questionText: z.string().describe('Question statement'),
-            questionFigure: z
+            preQuestionField: z.string().optional().describe(dedent`
+                Text placed above the question statement. 
+                Can be used for providing material like reading passages, math expressions, and alike.
+                Not for the question itself. Prefer to put the material bare. Don't introduce it like "Read the following:".
+            `),
+            questionStatement: z
                 .string()
-                .optional()
                 .describe(
-                    'Question figure placed before questionText. Use TeX for formatting.',
+                    'A question statement explaining the problem or task to solve. Must not include answer choices.',
                 ),
             ...(testType === 'multiple-choice'
                 ? {
@@ -79,7 +83,7 @@ export const genQuestionSchema = (
                       correctChoiceIndex: z
                           .number()
                           .max(choiceCount - 1)
-                          .describe('Correct choice index (0-indexed)'),
+                          .describe('The correct choice index (0-indexed)'),
                   }
                 : {
                       answerText: z

@@ -1,21 +1,11 @@
-'use server';
-
 import { z } from 'zod';
 import { generationSchema, genQuestionSchema } from '../constants/schemas';
 import { generateObject, APICallError } from 'ai';
 import { getModel } from '../constants/ai';
 import dedent from 'dedent';
-import { mapDifficultyToText } from '../utils';
+import { mapDifficultyToText } from './difficulty';
 
 export default async function generate(data: z.infer<typeof generationSchema>) {
-    const parsed = generationSchema.safeParse(data);
-
-    if (!parsed.success) {
-        return {
-            errors: parsed.error.flatten().fieldErrors,
-        };
-    }
-
     const model = getModel(
         data.model,
         data.apiKey,
@@ -42,15 +32,17 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
             newQuestions = (
                 await generateObject({
                     model,
+                    temperature: data.creativity / 100,
                     output: 'array',
                     schema: genQuestionSchema(data.choiceCount, data.testType),
+                    system: dedent`
+                            Use LaTeX (KaTeX) with mhchem when useful. Math expressions are preferred to be in LaTeX.
+                            Always wrap LaTeX with delimiters and escape backslashes.
+                            LaTeX can be also used just to make text bold, italic, and underlined for emphasis.
+                        `,
                     prompt: dedent`
-                        Generate ${data.questionCount} questions that are ${mapDifficultyToText(data.difficulty)} about "${data.topic}".
-                        Questions about topics like math, chemistry, and physics should have problem questions.
-                        Use TeX (KaTeX) with mhchem when useful. Use inline TeX except question figures. Don't forget to wrap TeX in $ and escape backslashes.
-                        You can use question figures for math expressions, etc. but don't put them in question text then. 
-                        Figures are shown above the question text. Refer to question figures in question text. 
-                        Don't refer to figures like "Figure 1". Prefer specialized terms like "equation" or "expression".
+                        Generate ${data.questionCount} "${data.topic}" questions.
+                        ${mapDifficultyToText(data.difficulty)}
                         ${data.customInstructions}
                     `,
                 })

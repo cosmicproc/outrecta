@@ -14,11 +14,20 @@ import {
     Textarea,
     Tooltip,
 } from '@nextui-org/react';
-import { Atom, Frown, Info, Smile, TriangleAlert, Zap } from 'lucide-react';
+import {
+    Apple,
+    Atom,
+    Candy,
+    Frown,
+    Info,
+    Smile,
+    TriangleAlert,
+    Zap,
+} from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { generationSchema, models } from './constants/schemas';
 import { z } from 'zod';
-import generate from './actions/generate';
+import generate from './utils/generate';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Greeter from './components/Greeter';
@@ -41,24 +50,23 @@ export default function Home() {
     });
 
     useEffect(() => {
-        const localModelRaw = z
-            .enum(models)
-            .safeParse(localStorage.getItem('model'));
-        if (localModelRaw.error) {
-            localStorage.removeItem('model');
+        const localFormDataRaw = localStorage.getItem('formData');
+        if (localFormDataRaw) {
+            const localFormData = generationSchema.safeParse(
+                JSON.parse(localFormDataRaw),
+            );
+            if (localFormData.success) {
+                localFormData.data.topic = '';
+                reset(localFormData.data);
+                return;
+            }
         }
         reset({
-            topic: '',
-            customInstructions: '',
             questionCount: 5,
             testType: 'multiple-choice',
             difficulty: 5,
+            creativity: 50,
             choiceCount: 4,
-            model: localModelRaw.data!,
-            azureDeploymentName:
-                localStorage.getItem('azureDeploymentName') || '',
-            azureResourceName: localStorage.getItem('azureResourceName') || '',
-            apiKey: localStorage.getItem('apiKey') || '',
         });
     }, []);
 
@@ -77,18 +85,7 @@ export default function Home() {
                 }
             });
         } else if (generation.document) {
-            if (data.apiKey) {
-                localStorage.setItem('model', data.model);
-                localStorage.setItem('apiKey', data.apiKey);
-                localStorage.setItem(
-                    'azureResourceName',
-                    data.azureResourceName,
-                );
-                localStorage.setItem(
-                    'azureDeploymentName',
-                    data.azureDeploymentName,
-                );
-            }
+            localStorage.setItem('formData', JSON.stringify(data));
             localStorage.setItem(
                 'questions',
                 JSON.stringify(generation.document),
@@ -244,6 +241,23 @@ export default function Home() {
                             startContent={<Zap size={22} />}
                         >
                             <div className="space-y-6">
+                                <Controller
+                                    name="creativity"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Slider
+                                            label="Creativity"
+                                            color="primary"
+                                            step={1}
+                                            maxValue={100}
+                                            minValue={0}
+                                            defaultValue={50}
+                                            startContent={<Apple />}
+                                            endContent={<Candy />}
+                                            {...field}
+                                        />
+                                    )}
+                                />
                                 {watchTestType === 'multiple-choice' && (
                                     <Input
                                         label="Choice count per question"

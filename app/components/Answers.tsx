@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import { TestDocument } from '../constants/types';
 import 'katex/dist/katex.min.css';
 import 'katex/contrib/mhchem';
+import { delimiters } from '../constants/etc';
 
 export default function Answers({
     questions,
@@ -16,12 +17,7 @@ export default function Answers({
     useEffect(() => {
         if (pageRef.current) {
             renderMathInElement(document.body, {
-                delimiters: [
-                    { left: '$$', right: '$$', display: true },
-                    { left: '\\[', right: '\\]', display: true },
-                    { left: '$', right: '$', display: false },
-                    { left: '\\(', right: '\\)', display: false },
-                ],
+                delimiters,
             });
         }
     }, [pageRef.current]);

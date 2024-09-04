@@ -2,11 +2,11 @@ export type TestDocument = {
     title: string;
     questions: (
         | {
-              questionFigure: string;
-              questionText: string;
+            questionStatement: string;
+              preQuestionField: string;
               choices: string[];
               correctChoiceIndex: number;
           }
-        | { questionFigure: string; questionText: string; answerText: string }
+        | { preQuestionField: string; questionStatement: string; answerText: string }
     )[];
 };

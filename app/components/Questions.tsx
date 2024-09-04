@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import { TestDocument } from '../constants/types';
 import 'katex/dist/katex.min.css';
 import 'katex/contrib/mhchem';
+import { delimiters } from '../constants/etc';
 
 export default function Questions({
     questions,
@@ -16,12 +17,7 @@ export default function Questions({
     useEffect(() => {
         if (pageRef.current) {
             renderMathInElement(document.body, {
-                delimiters: [
-                    { left: '$$', right: '$$', display: true },
-                    { left: '\\[', right: '\\]', display: true },
-                    { left: '$', right: '$', display: false },
-                    { left: '\\(', right: '\\)', display: false },
-                ],
+                delimiters,
             });
         }
     }, [pageRef.current]);
@@ -29,14 +25,12 @@ export default function Questions({
     return (
         <div ref={pageRef}>
             {questions.map((question, index) => (
-                <div className="my-10 print:break-inside-avoid" key={index}>
-                    {'questionFigure' in question && (
-                        <p className="mb-4">
-                            {question.questionFigure}
-                        </p>
+                <div className="my-12 print:break-inside-avoid" key={index}>
+                    {'preQuestionField' in question && (
+                        <p className="mb-4">{question.preQuestionField}</p>
                     )}
                     <p className={!('choices' in question) ? 'mb-80' : 'mb-4'}>
-                        {index + 1}. {question.questionText}
+                        {index + 1}. {question.questionStatement}
                     </p>
                     {'choices' in question &&
                         question.choices.map((choice, index) => (
