@@ -64,7 +64,7 @@ export const genQuestionSchema = (
         preQuestionField: z.string().optional().describe(dedent`
                 Field placed above the question statement. 
                 Can be used for reading passages, math expressions, code snippets, chemical equations, and alike.
-                Must not include question statement.
+                Must not include imperative statements and the question statement.
             `),
         questionText: z.string().describe(dedent`
                 Text that expresses the question statement.

@@ -4,7 +4,7 @@ import DOMPurify from 'dompurify';
 import { Marked } from 'marked';
 import 'katex/dist/katex.min.css';
 import 'katex/contrib/mhchem';
-import 'highlight.js/styles/github.css';
+import 'highlight.js/styles/github-dark.css';
 import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
 import markedKatex from 'marked-katex-extension';
@@ -31,9 +31,7 @@ export default function RichContent({
     );
 
     marked.use(markedKatex({ nonStandard: true }));
-    const rendered = DOMPurify.sanitize(
-        (marked.parse(content.trim()) as string).replaceAll('\\n', '<br />'),
-    );
+    const rendered = DOMPurify.sanitize(marked.parse(content.trim()) as string);
     return (
         <div
             className={ordered ? '[&>ol]:list-decimal' : ''}
