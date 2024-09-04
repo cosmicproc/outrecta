@@ -1,4 +1,3 @@
-import dedent from 'dedent';
 import { z } from 'zod';
 
 export const models = [
@@ -23,7 +22,7 @@ export const generationSchema = z.object({
         .number({ message: 'Question count must be a number.' })
         .int({ message: 'Question count must be an integer.' })
         .min(1, { message: 'Question count cannot be smaller than 1.' })
-        .max(100, { message: 'Question count cannot be more than 100.' }),
+        .max(50, { message: 'Question count cannot be more than 50.' }),
     testType: z.enum(['multiple-choice', 'open-ended']),
     difficulty: z.number().int().min(0).max(10),
     choiceCount: z.coerce
@@ -61,34 +60,30 @@ export const genQuestionSchema = (
     testType: 'multiple-choice' | 'open-ended',
 ) =>
     z.object({
-        preQuestionField: z.string().optional().describe(dedent`
-                Field placed above the question statement. 
-                Can be used for reading passages, math expressions, code snippets, chemical equations, and alike.
-                Must not include imperative statements and the question statement.
-            `),
-        questionText: z.string().describe(dedent`
-                Text that expresses the question statement.
-                Must start with a capital letter as a separate field.
-                Must not include answer choices.
-            `),
+        questionMaterial: z
+            .string()
+            .optional()
+            .describe(
+                'Optional question material like passages, variables, code snippets, etc. that can be referenced in the question statement.',
+            ),
+        questionStatement: z.string().describe('Question statement.'),
+
         ...(testType === 'multiple-choice'
             ? {
                   choices: z
                       .array(z.string())
                       .length(choiceCount)
                       .describe(
-                          'Answer choices of the question (including the correct one)',
+                          'Answer choices of the question (including the correct one).',
                       ),
                   correctChoiceIndex: z
                       .number()
                       .max(choiceCount - 1)
-                      .describe('The correct choice index (0-indexed)'),
+                      .describe('The correct choice index (0-indexed).'),
               }
             : {
                   answerText: z
                       .string()
-                      .describe(
-                          'A thorough answer of the question explaining the solution.',
-                      ),
+                      .describe('A thorough answer of the question.'),
               }),
     });

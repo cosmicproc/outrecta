@@ -18,7 +18,7 @@ export default function RootLayout({
             <body className="min-h-[100dvh] flex flex-col">
                 <Providers>
                     <div className="justify-center flex grow">
-                        <div className="sm:w-1/2 w-4/5 print:w-3/4">
+                        <div className="sm:w-1/2 w-5/6 print:w-5/6">
                             {children}
                         </div>
                     </div>

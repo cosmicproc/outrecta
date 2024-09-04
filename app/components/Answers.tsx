@@ -13,15 +13,15 @@ export default function Answers({
                     key={index}
                     className={`print:break-inside-avoid ${!('correctChoiceIndex' in question) && 'my-10'}`}
                 >
+                    <strong>{index + 1}.</strong>{' '}
                     <RichContent
-                        ordered={true}
-                        content={`${index + 1}. ${
+                        content={
                             'correctChoiceIndex' in question
                                 ? String.fromCharCode(
                                       65 + question.correctChoiceIndex,
                                   )
                                 : question.answerText + '\n'
-                        }`}
+                        }
                     />
                 </p>
             ))}

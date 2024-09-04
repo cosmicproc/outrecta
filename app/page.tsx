@@ -139,8 +139,8 @@ export default function Home() {
                                     <span className="text-center">
                                         The more questions, the longer and more
                                         expensive it will be to generate
-                                        <br /> (due to increased requests to the
-                                        model provider).
+                                        <br /> (also chance of failure will
+                                        increase).
                                     </span>
                                 }
                             >
@@ -309,7 +309,7 @@ export default function Home() {
                         Generate
                     </Button>
                     {loader && (
-                        <p className="mt-2 text-sm contrast-50">
+                        <p className="text-sm contrast-50">
                             This may take a while.
                         </p>
                     )}

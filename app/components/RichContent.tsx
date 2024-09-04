@@ -1,40 +1,37 @@
 'use client';
 
 import DOMPurify from 'dompurify';
-import { Marked } from 'marked';
 import 'katex/dist/katex.min.css';
 import 'katex/contrib/mhchem';
-import 'highlight.js/styles/github-dark.css';
-import { markedHighlight } from 'marked-highlight';
-import hljs from 'highlight.js';
-import markedKatex from 'marked-katex-extension';
+import { useEffect, useRef } from 'react';
+import renderMathInElement from 'katex/contrib/auto-render';
+import { delimiters } from '../constants/etc';
 
-export default function RichContent({
-    content,
-    ordered,
-}: {
-    content: string;
-    ordered?: boolean;
-}) {
-    const marked = new Marked(
-        markedHighlight({
-            langPrefix: 'hljs language-',
-            highlight(code, lang, info) {
-                const language = hljs.getLanguage(lang) ? lang : null;
-                if (language) {
-                    return hljs.highlight(code, { language }).value;
-                } else {
-                    return hljs.highlightAuto(code).value;
-                }
-            },
-        }),
+export default function RichContent({ content }: { content: string }) {
+    const pageRef = useRef(null);
+
+    useEffect(() => {
+        if (pageRef.current) {
+            renderMathInElement(document.body, {
+                delimiters,
+            });
+        }
+    }, []);
+
+    // Replace code blocks with pre/code tags
+    const rendered = DOMPurify.sanitize(
+        content
+            .trim()
+            .replaceAll('\n', '<br />')
+            .replaceAll(
+                /```[\w]*\n([\s\S]*?)```/g,
+                `<br /><pre><code>$1</code></pre><br />`,
+            )
+            .replaceAll(/`([^`]+?)`/g, (match, p1) => `<code>${p1}</code>`),
     );
-
-    marked.use(markedKatex({ nonStandard: true }));
-    const rendered = DOMPurify.sanitize(marked.parse(content.trim()) as string);
     return (
-        <div
-            className={ordered ? '[&>ol]:list-decimal' : ''}
+        <span
+            ref={pageRef}
             dangerouslySetInnerHTML={{
                 __html: rendered,
             }}

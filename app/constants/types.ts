@@ -2,14 +2,14 @@ export type TestDocument = {
     title: string;
     questions: (
         | {
-              questionText: string;
-              preQuestionField: string;
+              questionStatement: string;
+              questionMaterial: string;
               choices: string[];
               correctChoiceIndex: number;
           }
         | {
-              preQuestionField: string;
-              questionText: string;
+              questionMaterial: string;
+              questionStatement: string;
               answerText: string;
           }
     )[];

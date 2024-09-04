@@ -2,7 +2,7 @@
 
 Outrecta is a simple tool that you can use to generate tests about anything easily.
 
-To use Outrecta, you will need an API key from a provider. For example, you can use [OpenAI API](https://openai.com/api/). Choose the model provider you prefer and enter your API key first.
+To use Outrecta, you will need an API key from a provider. For example, you can use [OpenAI API](https://openai.com/api/). hoose the model provider you prefer and enter your API key first. Your API key will not leave your device.
 
 ### Warning!
 
