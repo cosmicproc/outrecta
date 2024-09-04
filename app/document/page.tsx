@@ -13,7 +13,7 @@ export default function Document() {
             <div className="text-center mt-8">
                 <h1 className="text-3xl mb-4 font-black">Outrecta</h1>
                 <h3 className="text-xl font-medium">Your test is ready!</h3>
-                <div className="space-x-4 my-6">
+                <div className="space-x-4 space-y-4 my-6">
                     <Button
                         href="/test"
                         as={Link}
@@ -35,7 +35,7 @@ export default function Document() {
                 </div>
 
                 <div className="flex justify-center my-6">
-                    <Card className="w-2/3">
+                    <Card className="sm:w-2/3">
                         <CardBody>
                             <p className="mb-4">
                                 <strong>TIP:</strong> You can print the test and
