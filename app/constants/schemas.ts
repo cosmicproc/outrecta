@@ -35,9 +35,9 @@ export const generationSchema = z.object({
     model: z.enum(models, {
         message: 'Invalid model provider.',
     }),
-    azureResourceName: z.string(),
-    azureDeploymentName: z.string(),
-    apiKey: z.string(),
+    azureResourceName: z.string().optional(),
+    azureDeploymentName: z.string().optional(),
+    apiKey: z.string().min(1, { message: 'API key cannot be empty.' }),
     creativity: z.number().int().min(0).max(100),
     manualTitle: z
         .string()
@@ -64,7 +64,7 @@ export const genQuestionSchema = (
         .object({
             preQuestionField: z.string().describe(dedent`
                 Text placed above the question statement. 
-                Can be used for material like reading passages, math expressions, code snippets and alike.
+                Can be used for reading passages, math expressions, code snippets, chemical equations, and alike.
                 Not for the question itself.
             `),
             questionStatement: z

@@ -1,15 +1,13 @@
 'use client';
 
 import DOMPurify from 'dompurify';
-import renderMathInElement from 'katex/contrib/auto-render';
 import { Marked } from 'marked';
-import { useEffect, useRef } from 'react';
 import 'katex/dist/katex.min.css';
 import 'katex/contrib/mhchem';
 import 'highlight.js/styles/github.css';
-import { delimiters } from '../constants/etc';
 import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
+import markedKatex from 'marked-katex-extension';
 
 export default function RichContent({
     content,
@@ -18,16 +16,6 @@ export default function RichContent({
     content: string;
     ordered?: boolean;
 }) {
-    const contentRef = useRef(null);
-
-    useEffect(() => {
-        if (contentRef.current) {
-            renderMathInElement(document.body, {
-                delimiters,
-            });
-        }
-    }, []);
-
     const marked = new Marked(
         markedHighlight({
             langPrefix: 'hljs language-',
@@ -42,11 +30,13 @@ export default function RichContent({
         }),
     );
 
-    const rendered = DOMPurify.sanitize(marked.parse(content.trim()) as string);
+    marked.use(markedKatex({ nonStandard: true }));
+    const rendered = DOMPurify.sanitize(
+        (marked.parse(content.trim()) as string).replaceAll('\\n', '<br />'),
+    );
     return (
         <div
             className={ordered ? '[&>ol]:list-decimal' : ''}
-            ref={contentRef}
             dangerouslySetInnerHTML={{
                 __html: rendered,
             }}

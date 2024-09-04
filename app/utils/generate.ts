@@ -36,8 +36,18 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                     output: 'array',
                     schema: genQuestionSchema(data.choiceCount, data.testType),
                     system: dedent`
-                            Use LaTex (KaTeX) with mhchem and Markdown for formatting.
-                            Always wrap any LaTeX in dollar signs ($) and escape backslashes.
+                            You must follow conditions below under any circumstances.
+
+                            Formatting Rules:
+                            You have a KaTeX with mhchem extension render environment.
+                            - Any LaTeX and mhchem text between single dollar sign ($) will be rendered as a TeX formula.
+                            - Use $(tex_formula)$ inline delimiters to display equations instead of backslash.
+                            - Use display mode only in pre-question field. Prefer inline mode for LaTeX most of the time even for pre-question field. 
+                            - Always escape backslashes in LaTeX.
+
+                            Additional Rules:
+                            - Put expressions in pre-question field when useful.
+                            - Avoid impereative language in pre-question field.
                         `,
                     prompt: dedent`
                         Generate ${data.questionCount} "${data.topic}" questions.

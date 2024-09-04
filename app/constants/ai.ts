@@ -12,15 +12,15 @@ export function getModel(
     deploymentName?: string,
 ) {
     if (provider === 'openai-4o') {
-        const openai = createOpenAI({ apiKey });
+        const openai = createOpenAI({ apiKey, compatibility: 'strict' });
         const model = openai('gpt-4o');
         return model;
     } else if (provider === 'openai-4o-mini') {
-        const openai = createOpenAI({ apiKey });
+        const openai = createOpenAI({ apiKey, compatibility: 'strict' });
         const model = openai('gpt-4o-mini');
         return model;
     } else if (provider === 'openai-4-turbo') {
-        const openai = createOpenAI({ apiKey });
+        const openai = createOpenAI({ apiKey, compatibility: 'strict' });
         const model = openai('gpt-4-turbo');
         return model;
     } else if (provider === 'anthropic-3.5-sonnet') {
