@@ -18,7 +18,7 @@ export default function Questions({
                     <p className={!('choices' in question) ? 'mb-80' : 'mb-4'}>
                         <RichContent
                             ordered={true}
-                            content={`${index + 1}. ${question.questionStatement}`}
+                            content={`${index + 1}. ${question.questionText}`}
                         />
                     </p>
                     {'choices' in question &&

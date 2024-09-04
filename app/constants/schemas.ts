@@ -61,13 +61,16 @@ export const genQuestionSchema = (
     testType: 'multiple-choice' | 'open-ended',
 ) =>
     z.object({
-        preQuestionField: z.string().describe(dedent`
-                Text placed above the question statement. 
+        preQuestionField: z.string().optional().describe(dedent`
+                Field placed above the question statement. 
                 Can be used for reading passages, math expressions, code snippets, chemical equations, and alike.
+                Must not include question statement.
             `),
-        questionStatement: z
-            .string()
-            .describe('Question statement. Must not include answer choices.'),
+        questionText: z.string().describe(dedent`
+                Text that expresses the question statement.
+                Must start with a capital letter as a separate field.
+                Must not include answer choices.
+            `),
         ...(testType === 'multiple-choice'
             ? {
                   choices: z
