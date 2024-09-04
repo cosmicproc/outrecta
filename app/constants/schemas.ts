@@ -60,35 +60,32 @@ export const genQuestionSchema = (
     choiceCount: number,
     testType: 'multiple-choice' | 'open-ended',
 ) =>
-    z
-        .object({
-            preQuestionField: z.string().describe(dedent`
+    z.object({
+        preQuestionField: z.string().describe(dedent`
                 Text placed above the question statement. 
                 Can be used for reading passages, math expressions, code snippets, chemical equations, and alike.
-                Not for the question itself.
             `),
-            questionStatement: z
-                .string()
-                .describe(
-                    'A question statement explaining the problem or task to solve. Must not include answer choices.',
-                ),
-            ...(testType === 'multiple-choice'
-                ? {
-                      choices: z
-                          .array(z.string())
-                          .length(choiceCount)
-                          .describe(
-                              'Answer choices of the question (including the correct one)',
-                          ),
-                      correctChoiceIndex: z
-                          .number()
-                          .max(choiceCount - 1)
-                          .describe('The correct choice index (0-indexed)'),
-                  }
-                : {
-                      answerText: z
-                          .string()
-                          .describe('A thorough answer of the question'),
-                  }),
-        })
-        .describe('A question');
+        questionStatement: z
+            .string()
+            .describe('Question statement. Must not include answer choices.'),
+        ...(testType === 'multiple-choice'
+            ? {
+                  choices: z
+                      .array(z.string())
+                      .length(choiceCount)
+                      .describe(
+                          'Answer choices of the question (including the correct one)',
+                      ),
+                  correctChoiceIndex: z
+                      .number()
+                      .max(choiceCount - 1)
+                      .describe('The correct choice index (0-indexed)'),
+              }
+            : {
+                  answerText: z
+                      .string()
+                      .describe(
+                          'A thorough answer of the question explaining the solution.',
+                      ),
+              }),
+    });

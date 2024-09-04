@@ -48,6 +48,7 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                             Additional Rules:
                             - Put expressions in pre-question field when useful.
                             - Avoid impereative language in pre-question field.
+                            - Don't put the question statement in pre-question field.
                         `,
                     prompt: dedent`
                         Generate ${data.questionCount} "${data.topic}" questions.
