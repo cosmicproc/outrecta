@@ -41,6 +41,6 @@
         "prettier": "^3.3.3",
         "tailwindcss": "^3.4.10",
         "typescript": "^5",
-        "vercel": "^37.2.1"
+        "vercel": "^37.3.0"
     }
 }
