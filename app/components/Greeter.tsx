@@ -47,13 +47,13 @@ export default function Greeter() {
                             <p>
                                 To use Outrecta, you will need an API key from a
                                 provider. For example, you can use{' '}
-                                <Link href="https://openai.com/api/">
+                                <Link isExternal href="https://openai.com/api/">
                                     OpenAI API
                                 </Link>
                                 . Choose the model provider you prefer and enter
                                 your API key first. Your API key will not leave
                                 your device. You may want to see the{' '}
-                                <Link href="https://github.com/cosmicproc/outrecta/tree/main/examples">
+                                <Link isExternal href="https://github.com/cosmicproc/outrecta/tree/main/examples">
                                     examples
                                 </Link>{' '}
                                 before you start.
