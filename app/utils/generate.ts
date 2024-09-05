@@ -22,7 +22,7 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
     let errors = 0;
     while (
         questions.length < data.questionCount &&
-        iteration < Math.max(data.questionCount / 3, 10)
+        iteration < Math.max(data.questionCount / 3, 6)
     ) {
         if (errors >= 5) {
             return { failed: true };
@@ -36,9 +36,10 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                     output: 'array',
                     schema: genQuestionSchema(data.choiceCount, data.testType),
                     system: dedent`
-                            You have a LaTeX with mhchem extension render environment. 
-                            Generelly prefer the inline mode. Always escape backslashes in LaTeX.
-                            You can use "\\n" for newlines. You must not use any Markdown other than code blocks and inline code. 
+                            You are a question generator. You are asked to generate questions for a test.
+                            Use LaTeX with mhchem when useful. Generelly prefer the inline mode.
+                            Always escape backslashes in LaTeX.
+                            You must not use any Markdown other than code blocks and inline code.
                         `,
                     prompt: dedent`
                         Generate ${data.questionCount} "${data.topic}" questions.

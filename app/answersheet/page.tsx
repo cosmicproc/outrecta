@@ -23,7 +23,7 @@ export default function Answersheet() {
     }, []);
 
     if (testDocument) {
-        document.title = `Answersheet: ${testDocument?.title}`;
+        document.title = `Answersheet-${testDocument?.title}`;
         return (
             <main className={`${textFont.className} my-8`}>
                 <div className="text-center">
