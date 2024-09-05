@@ -52,7 +52,11 @@ export default function Greeter() {
                                 </Link>
                                 . Choose the model provider you prefer and enter
                                 your API key first. Your API key will not leave
-                                your device.
+                                your device. You may want to see the{' '}
+                                <Link href="https://github.com/cosmicproc/outrecta/tree/main/examples">
+                                    examples
+                                </Link>{' '}
+                                before you start.
                             </p>
                             <h3 className="text-large font-bold">Warning!</h3>
                             <p>

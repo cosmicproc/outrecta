@@ -5,16 +5,13 @@ import 'katex/dist/katex.min.css';
 import 'katex/contrib/mhchem';
 import { useEffect, useRef } from 'react';
 import renderMathInElement from 'katex/contrib/auto-render';
-import { delimiters } from '../constants/etc';
 
 export default function RichContent({ content }: { content: string }) {
     const pageRef = useRef(null);
 
     useEffect(() => {
         if (pageRef.current) {
-            renderMathInElement(document.body, {
-                delimiters,
-            });
+            renderMathInElement(document.body);
         }
     }, []);
 
@@ -27,10 +24,12 @@ export default function RichContent({ content }: { content: string }) {
                 (_, code) => `<pre><code>${code}</code></pre>`,
             )
             .replaceAll(/`([^`]+)`/g, (_, code) => `<code>${code}</code>`)
-            .replaceAll('\\n', '<br />'),
+            .replaceAll(/\*\*([^\*]+)\*\*/g, (_, code) => `<b>${code}</b>`)
+            .replaceAll('\n', '<br />'),
     );
     return (
         <span
+            className="[&>pre]:whitespace-pre-wrap"
             ref={pageRef}
             dangerouslySetInnerHTML={{
                 __html: rendered,

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { generationSchema, genQuestionSchema } from '../constants/schemas';
-import { generateObject, APICallError } from 'ai';
+import { generateObject, APICallError, RetryError } from 'ai';
 import { getModel } from '../constants/ai';
 import dedent from 'dedent';
 import { mapDifficultyToText } from './difficulty';
@@ -37,9 +37,8 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                     schema: genQuestionSchema(data.choiceCount, data.testType),
                     system: dedent`
                             You are a question generator. You are asked to generate questions for a test.
-                            Use LaTeX with mhchem when useful. Generelly prefer the inline mode.
-                            Always escape backslashes in LaTeX.
-                            You must not use any Markdown other than code blocks and inline code.
+                            Use LaTeX (KaTeX) with mhchem when useful. Use display mode only in the answer text. 
+                            Always escape backslashes in LaTeX. You must not use any Markdown other than code blocks and inline code.
                         `,
                     prompt: dedent`
                         Generate ${data.questionCount} "${data.topic}" questions.
@@ -49,7 +48,10 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                 })
             ).object;
         } catch (error) {
-            if (APICallError.isInstance(error)) {
+            if (
+                APICallError.isInstance(error) ||
+                RetryError.isInstance(error)
+            ) {
                 return {
                     errors: {
                         apiKey: [

@@ -11,7 +11,7 @@ export default function Answers({
             {questions.map((question, index) => (
                 <p
                     key={index}
-                    className={`print:break-inside-avoid ${!('correctChoiceIndex' in question) && 'my-10'}`}
+                    className={`print:break-inside-avoid ${!('correctChoiceIndex' in question) && 'mb-20'}`}
                 >
                     <strong>{index + 1}.</strong>{' '}
                     <RichContent
