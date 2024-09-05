@@ -31,6 +31,7 @@ import generate from './utils/generate';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Greeter from './components/Greeter';
+import { modelNames } from './constants/ai';
 
 export default function Home() {
     const router = useRouter();
@@ -94,16 +95,6 @@ export default function Home() {
         }
         setLoader(false);
     }
-
-    const modelNames = {
-        'openai-4o': 'GPT4o (OpenAI)',
-        'openai-4o-mini': 'GPT4o-Mini (OpenAI)',
-        'openai-4-turbo': 'GPT4-Turbo (OpenAI)',
-        'anthropic-3.5-sonnet': 'Claude 3.5 Sonnet (Anthropic)',
-        'anthropic-3-haiku': 'Claude 3 Haiku (Anthropic)',
-        'anthropic-3-opus': 'Claude 3 Opus (Anthropic)',
-        'azure-openai': 'Azure OpenAI',
-    };
 
     const watchTestType = watch('testType');
     const watchModel = watch('model');

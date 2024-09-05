@@ -22,12 +22,12 @@ export default function RichContent({ content }: { content: string }) {
     const rendered = DOMPurify.sanitize(
         content
             .trim()
-            .replaceAll('\n', '<br />')
             .replaceAll(
-                /```[\w]*\n([\s\S]*?)```/g,
-                `<br /><pre><code>$1</code></pre><br />`,
+                /```\w+?\n([\s\S]*?)```/g,
+                (_, code) => `<pre><code>${code}</code></pre>`,
             )
-            .replaceAll(/`([^`]+?)`/g, (match, p1) => `<code>${p1}</code>`),
+            .replaceAll(/`([^`]+)`/g, (_, code) => `<code>${code}</code>`)
+            .replaceAll('\\n', '<br />'),
     );
     return (
         <span

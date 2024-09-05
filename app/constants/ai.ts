@@ -41,3 +41,13 @@ export function getModel(
         return model;
     }
 }
+
+export const modelNames = {
+    'openai-4o': 'GPT4o (OpenAI)',
+    'openai-4o-mini': 'GPT4o-Mini (OpenAI)',
+    'openai-4-turbo': 'GPT4-Turbo (OpenAI)',
+    'anthropic-3.5-sonnet': 'Claude 3.5 Sonnet (Anthropic)',
+    'anthropic-3-haiku': 'Claude 3 Haiku (Anthropic)',
+    'anthropic-3-opus': 'Claude 3 Opus (Anthropic)',
+    'azure-openai': 'Azure OpenAI',
+};

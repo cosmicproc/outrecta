@@ -29,7 +29,7 @@ export default function Questions({
                                     key={index}
                                     className={isChoiceMultiline ? 'my-4' : ''}
                                 >
-                                    {isChoiceMultiline && <>{indicator} )</>}
+                                    {isChoiceMultiline && <>{indicator}) </>}
                                     <p
                                         className={
                                             choice.match('\n')
@@ -38,7 +38,7 @@ export default function Questions({
                                         }
                                     >
                                         {!isChoiceMultiline && (
-                                            <>{indicator} )</>
+                                            <>{indicator}) </>
                                         )}
                                         <RichContent
                                             content={choice.replace(

@@ -64,7 +64,7 @@ export const genQuestionSchema = (
             .string()
             .optional()
             .describe(
-                'Optional question material like passages, variables, code snippets, etc. that can be referenced in the question statement.',
+                'Optional question material like passages, variables, code, etc. that can be refered to in the question statement.',
             ),
         questionStatement: z.string().describe('Question statement.'),
 

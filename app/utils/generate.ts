@@ -36,8 +36,8 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                     output: 'array',
                     schema: genQuestionSchema(data.choiceCount, data.testType),
                     system: dedent`
-                            You have a LaTeX with mhchem extension render environment. Generelly prefer the inline mode. 
-                            Use LaTeX for math and mhchem for chemistry expressions. Always escape backslashes in LaTeX.
+                            You have a LaTeX with mhchem extension render environment. 
+                            Generelly prefer the inline mode. Always escape backslashes in LaTeX.
                             You can use "\\n" for newlines. You must not use any Markdown other than code blocks and inline code. 
                         `,
                     prompt: dedent`
