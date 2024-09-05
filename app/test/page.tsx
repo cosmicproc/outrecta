@@ -1,16 +1,11 @@
 'use client';
 
-import { Merriweather } from 'next/font/google';
 import { TestDocument } from '@/app/constants/types';
 import PrintButton from '@/app/components/PrintButton';
 import Questions from '@/app/components/Questions';
 import { notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
-const textFont = Merriweather({
-    subsets: ['latin'],
-    weight: ['400', '700'],
-});
+import { customFont } from '../constants/etc';
 
 export default function Test() {
     const [testDocument, setTestDocument] = useState<TestDocument | null>(null);
@@ -25,7 +20,7 @@ export default function Test() {
     if (testDocument) {
         document.title = testDocument?.title;
         return (
-            <main className={`${textFont.className} my-8`}>
+            <main className={`${customFont.className} my-8`}>
                 <div className="text-center">
                     <h1 className="font-bold text-3xl mb-4">
                         {testDocument.title}
