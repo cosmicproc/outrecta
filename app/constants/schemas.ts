@@ -64,9 +64,11 @@ export const genQuestionSchema = (
             .string()
             .optional()
             .describe(
-                'Optional question material like passages, variables, equations, code, etc. that can be refered to in the question statement.',
+                'Optional question material like passages, variables, equations, code snippets, etc. that can be refered to in the question statement.',
             ),
-        questionStatement: z.string().describe('Question statement.'),
+        questionStatement: z
+            .string()
+            .describe('Question statement that asks the question.'),
 
         ...(testType === 'multiple-choice'
             ? {

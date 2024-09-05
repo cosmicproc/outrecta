@@ -21,7 +21,8 @@ export default function Questions({
                     </p>
                     {'choices' in question &&
                         question.choices.map((choice, index) => {
-                            const isChoiceMultiline = choice.match('\n');
+                            const isChoiceMultiline =
+                                choice.match('\n') || choice.match('\\\\n');
                             const indicator = String.fromCharCode(97 + index);
 
                             return (
@@ -32,7 +33,7 @@ export default function Questions({
                                     {isChoiceMultiline && <>{indicator}) </>}
                                     <p
                                         className={
-                                            choice.match('\n')
+                                            isChoiceMultiline
                                                 ? 'my-2 ml-1 border-gray-700 dark:border-gray-300 border-l-2 pl-3'
                                                 : ''
                                         }
