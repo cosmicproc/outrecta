@@ -45,15 +45,19 @@ export default function Greeter() {
                                 generate tests about anything easily.
                             </p>
                             <p>
-                                To use Outrecta, you will need an API key from a
-                                provider. For example, you can use{' '}
+                                To use Outrecta, you will need an API key from
+                                an LLM provider. For example, you can use{' '}
                                 <Link isExternal href="https://openai.com/api/">
                                     OpenAI API
                                 </Link>
                                 . Choose the model provider you prefer and enter
-                                your API key first. Your API key will not leave
-                                your device. You may want to see the{' '}
-                                <Link isExternal href="https://github.com/cosmicproc/outrecta/tree/main/examples">
+                                your API key first. Your API key will not be
+                                sent to our servers (requests are done from your
+                                browser). You may want to see the{' '}
+                                <Link
+                                    isExternal
+                                    href="https://github.com/cosmicproc/outrecta/tree/main/examples"
+                                >
                                     examples
                                 </Link>{' '}
                                 before you start.
