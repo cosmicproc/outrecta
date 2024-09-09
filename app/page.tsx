@@ -161,12 +161,14 @@ export default function Home() {
                         <>
                             <Input
                                 label="Azure Resource Name"
+                                isRequired
                                 isInvalid={!!errors.azureResourceName}
                                 errorMessage={errors.azureResourceName?.message}
                                 {...register('azureResourceName')}
                             />
                             <Input
                                 label="Azure Deployment Name"
+                                isRequired
                                 isInvalid={!!errors.azureDeploymentName}
                                 errorMessage={
                                     errors.azureDeploymentName?.message
