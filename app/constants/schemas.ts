@@ -1,14 +1,6 @@
 import { z } from 'zod';
+import { models } from './ai';
 
-export const models = [
-    'openai-4o',
-    'openai-4o-mini',
-    'openai-4-turbo',
-    'anthropic-3.5-sonnet',
-    'anthropic-3-opus',
-    'anthropic-3-haiku',
-    'azure-openai',
-] as const;
 export const generationSchema = z
     .object({
         topic: z
@@ -32,7 +24,7 @@ export const generationSchema = z
             .min(2, { message: 'Choice count cannot be smaller than 2.' })
             .max(8, { message: 'Choice count cannot be more than 8.' })
             .default(4),
-        model: z.enum(models, {
+        model: z.enum(models as [string, ...string[]], {
             message: 'Invalid model provider.',
         }),
         azureResourceName: z.string().optional(),

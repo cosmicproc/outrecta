@@ -25,7 +25,7 @@ import {
     Zap,
 } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
-import { generationSchema, models } from './constants/schemas';
+import { generationSchema } from './constants/schemas';
 import { z } from 'zod';
 import generate from './utils/generate';
 import { useRouter } from 'next/navigation';

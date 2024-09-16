@@ -1,13 +1,13 @@
 import { z } from 'zod';
 import { generationSchema, genQuestionSchema } from '../constants/schemas';
-import { generateObject, APICallError, RetryError } from 'ai';
-import { getModel } from '../constants/ai';
+import { generateObject, APICallError, RetryError, Provider } from 'ai';
+import { getModel, Providers } from '../constants/ai';
 import dedent from 'dedent';
 import { mapDifficultyToText } from './difficulty';
 
 export default async function generate(data: z.infer<typeof generationSchema>) {
     const model = getModel(
-        data.model,
+        data.model as Providers,
         data.apiKey,
         data.azureResourceName,
         data.azureDeploymentName,
