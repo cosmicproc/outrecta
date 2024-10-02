@@ -10,17 +10,17 @@
         "format": "prettier -w ."
     },
     "dependencies": {
-        "@ai-sdk/anthropic": "^0.0.49",
-        "@ai-sdk/azure": "^0.0.36",
-        "@ai-sdk/openai": "^0.0.58",
+        "@ai-sdk/anthropic": "^0.0.51",
+        "@ai-sdk/azure": "^0.0.41",
+        "@ai-sdk/openai": "^0.0.63",
         "@hookform/resolvers": "^3.9.0",
-        "@nextui-org/react": "^2.4.6",
-        "ai": "^3.3.29",
+        "@nextui-org/react": "^2.4.8",
+        "ai": "^3.4.7",
         "dedent": "^1.5.3",
-        "dompurify": "^3.1.6",
-        "framer-motion": "^11.5.4",
+        "dompurify": "^3.1.7",
+        "framer-motion": "^11.9.0",
         "katex": "^0.16.11",
-        "next": "^14.2.8",
+        "next": "^14.2.14",
         "next-themes": "^0.3.0",
         "react": "^18",
         "react-dom": "^18",
@@ -34,13 +34,13 @@
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "eslint": "^8",
-        "eslint-config-next": "14.2.8",
+        "eslint-config-next": "14.2.14",
         "eslint-config-prettier": "^9.1.0",
-        "lucide-react": "^0.439.0",
+        "lucide-react": "^0.447.0",
         "postcss": "^8",
         "prettier": "^3.3.3",
-        "tailwindcss": "^3.4.10",
+        "tailwindcss": "^3.4.13",
         "typescript": "^5",
-        "vercel": "^37.4.0"
+        "vercel": "^37.6.0"
     }
 }
