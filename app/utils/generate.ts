@@ -34,14 +34,17 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                     model,
                     temperature: data.creativity / 100,
                     output: 'array',
-                    schema: genQuestionSchema(data.choiceCount, data.testType),
+                    schema: genQuestionSchema(
+                        data.choiceCount,
+                        data.includeAnswers,
+                        data.testType,
+                    ),
                     system: dedent`
-                            You are a question generator. You are asked to generate questions for a test.
-                            Use LaTeX (KaTeX) with mhchem when useful. Use display mode only in the answer text. 
-                            Always escape backslashes in LaTeX. You must not use any Markdown other than code blocks and inline code.
-                        `,
+                        You are a question generator. You are asked to generate questions for a test.
+                        Use LaTeX (KaTeX) with mhchem when useful. Do not use Markdown except for code.
+                    `,
                     prompt: dedent`
-                        Generate ${data.questionCount} "${data.topic}" questions.
+                        Generate ${data.questionCount} questions for a test about "${data.topic}".
                         ${mapDifficultyToText(data.difficulty)}
                         ${data.customInstructions}
                     `,
@@ -69,5 +72,11 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
         iteration++;
     }
 
-    return { document: { title: data.manualTitle || data.topic, questions } };
+    return {
+        document: {
+            title: data.manualTitle || data.topic,
+            questions,
+            answersIncluded: data.includeAnswers,
+        },
+    };
 }

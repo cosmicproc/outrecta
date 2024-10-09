@@ -16,6 +16,7 @@ export const generationSchema = z
             .int({ message: 'Question count must be an integer.' })
             .min(1, { message: 'Question count cannot be smaller than 1.' })
             .max(50, { message: 'Question count cannot be more than 50.' }),
+        includeAnswers: z.boolean(),
         testType: z.enum(['multiple-choice', 'open-ended']),
         difficulty: z.number().int().min(0).max(10),
         choiceCount: z.coerce
@@ -68,6 +69,7 @@ export const generationSchema = z
 
 export const genQuestionSchema = (
     choiceCount: number,
+    includeAnswers: boolean,
     testType: 'multiple-choice' | 'open-ended',
 ) =>
     z.object({
@@ -75,28 +77,38 @@ export const genQuestionSchema = (
             .string()
             .optional()
             .describe(
-                'Optional question material like passages, variables, equations, code snippets, etc. that can be refered to in the question statement.',
+                'Optional question material like passages, variables, equations, code snippets, etc. that can be refered to in question statement.',
             ),
         questionStatement: z
             .string()
-            .describe('Question statement that asks the question.'),
+            .describe('Question statement that asks question.'),
 
         ...(testType === 'multiple-choice'
             ? {
                   choices: z
                       .array(z.string())
                       .length(choiceCount)
-                      .describe(
-                          'Answer choices of the question (including the correct one).',
-                      ),
-                  correctChoiceIndex: z
-                      .number()
-                      .max(choiceCount - 1)
-                      .describe('The correct choice index (0-indexed).'),
+                      .describe('Answer choices of the question.'),
+                  ...(includeAnswers
+                      ? {
+                            correctChoiceIndex: z
+                                .number()
+                                .max(choiceCount - 1)
+                                .describe(
+                                    'The correct choice index that is random in every question (0-indexed).',
+                                ),
+                        }
+                      : {}),
               }
             : {
-                  answerText: z
-                      .string()
-                      .describe('A thorough answer of the question.'),
+                  ...(includeAnswers
+                      ? {
+                            answerText: z
+                                .string()
+                                .describe(
+                                    'A thorough explanation of question.',
+                                ),
+                        }
+                      : {}),
               }),
     });

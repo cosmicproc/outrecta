@@ -13,4 +13,5 @@ export type TestDocument = {
               answerText: string;
           }
     )[];
+    answersIncluded: boolean;
 };

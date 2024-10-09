@@ -2,11 +2,21 @@
 
 import { Button, Card, CardBody, Link } from '@nextui-org/react';
 import { notFound } from 'next/navigation';
+import { TestDocument } from '../constants/types';
+import { useEffect, useState } from 'react';
 
 export default function Document() {
-    if (typeof window !== 'undefined' && !localStorage.getItem('questions')) {
-        return notFound();
-    }
+    const [answersIncluded, setAnswersIncluded] = useState<boolean>(true);
+
+    useEffect(() => {
+        const testDocumentRaw = localStorage.getItem('questions');
+        const testDocument =
+            testDocumentRaw && (JSON.parse(testDocumentRaw) as TestDocument);
+        if (!testDocument) {
+            return notFound();
+        }
+        setAnswersIncluded(testDocument.answersIncluded);
+    }, []);
 
     return (
         <main>
@@ -29,6 +39,7 @@ export default function Document() {
                         color="primary"
                         showAnchorIcon
                         variant="ghost"
+                        isDisabled={!answersIncluded}
                     >
                         Go to answersheet
                     </Button>

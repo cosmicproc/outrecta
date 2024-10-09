@@ -7,8 +7,6 @@ import { notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { customFont } from '../constants/etc';
 
-
-
 export default function Answersheet() {
     const [testDocument, setTestDocument] = useState<TestDocument | null>(null);
     useEffect(() => {
@@ -30,7 +28,11 @@ export default function Answersheet() {
                     </h1>
                     <PrintButton />
                 </div>
-                <Answers questions={testDocument.questions} />
+                {testDocument.answersIncluded ? (
+                    <Answers questions={testDocument.questions} />
+                ) : (
+                    <p className="mt-8">Answersheet wasn&apos;t generated.</p>
+                )}
             </main>
         );
     }

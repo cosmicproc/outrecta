@@ -11,16 +11,16 @@
     },
     "dependencies": {
         "@ai-sdk/anthropic": "^0.0.51",
-        "@ai-sdk/azure": "^0.0.41",
-        "@ai-sdk/openai": "^0.0.63",
+        "@ai-sdk/azure": "^0.0.45",
+        "@ai-sdk/openai": "^0.0.66",
         "@hookform/resolvers": "^3.9.0",
         "@nextui-org/react": "^2.4.8",
-        "ai": "^3.4.7",
+        "ai": "^3.4.9",
         "dedent": "^1.5.3",
         "dompurify": "^3.1.7",
-        "framer-motion": "^11.9.0",
+        "framer-motion": "^11.11.7",
         "katex": "^0.16.11",
-        "next": "^14.2.14",
+        "next": "^14.2.15",
         "next-themes": "^0.3.0",
         "react": "^18",
         "react-dom": "^18",
@@ -34,13 +34,13 @@
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "eslint": "^8",
-        "eslint-config-next": "14.2.14",
+        "eslint-config-next": "14.2.15",
         "eslint-config-prettier": "^9.1.0",
-        "lucide-react": "^0.447.0",
+        "lucide-react": "^0.451.0",
         "postcss": "^8",
         "prettier": "^3.3.3",
         "tailwindcss": "^3.4.13",
         "typescript": "^5",
-        "vercel": "^37.6.0"
+        "vercel": "^37.6.3"
     }
 }

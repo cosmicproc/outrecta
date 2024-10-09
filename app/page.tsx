@@ -11,6 +11,7 @@ import {
     Select,
     SelectItem,
     Slider,
+    Switch,
     Textarea,
     Tooltip,
 } from '@nextui-org/react';
@@ -64,6 +65,7 @@ export default function Home() {
         }
         reset({
             questionCount: 5,
+            includeAnswers: true,
             testType: 'multiple-choice',
             difficulty: 5,
             creativity: 50,
@@ -185,6 +187,9 @@ export default function Home() {
                         errorMessage={errors.apiKey?.message}
                         {...register('apiKey')}
                     />
+                    <Switch {...register('includeAnswers')}>
+                        Include the answersheet.
+                    </Switch>
                     <Controller
                         name="testType"
                         control={control}

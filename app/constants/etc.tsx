@@ -1,4 +1,4 @@
-import { Merriweather } from "next/font/google";
+import { Merriweather } from 'next/font/google';
 
 export const customFont = Merriweather({
     subsets: ['latin'],

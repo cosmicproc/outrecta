@@ -11,23 +11,30 @@ export default function RichContent({ content }: { content: string }) {
 
     useEffect(() => {
         if (pageRef.current) {
-            renderMathInElement(document.body);
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true },
+                ],
+            });
         }
     }, []);
 
     const process = (content: string) =>
         content
-            .trim()
-            .replaceAll(/</g, '&lt;')
-            .replaceAll(/>/g, '&gt;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
             .replaceAll(
                 /```\w+?[\n,\\n]([\s\S]*?)```/g,
                 (_, code) => `<pre><code>${code}</code></pre>`,
             )
             .replaceAll(/`([^`]+)`/g, (_, code) => `<code>${code}</code>`)
             .replaceAll(/\*\*([^\*]+)\*\*/g, (_, code) => `<b>${code}</b>`)
-            .replaceAll('\n', '<br />')
-            .replaceAll('\\n', '<br />');
+            .replaceAll(/(?<!\\\[)(?<!\\\()(\\n)(?!\\\])(?!\\\))/g, '<br />')
+            .replaceAll(/(?<!\\\[)(?<!\\\()(\n)(?!\\\])(?!\\\))/g, '<br />')
+            .trim();
 
     const rendered = DOMPurify.sanitize(process(content));
     return (
