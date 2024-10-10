@@ -42,8 +42,8 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                 ),
                 system: dedent`
                         You are a question generator. You are asked to generate questions for a test.
-                        Use LaTeX (KaTeX) with mhchem when useful. Do not use Markdown except for code.
-                        Always wrap LaTeX in $ for inline or $$ for display.
+                        Use LaTeX (KaTeX) with mhchem when useful. Always wrap LaTeX in $.
+                        Do not use Markdown except for code.
                     `,
                 prompt: dedent`
                         Generate ${data.questionCount} questions for a test about "${data.topic.trim()}".

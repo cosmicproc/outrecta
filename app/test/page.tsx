@@ -22,7 +22,7 @@ export default function Test() {
         return (
             <main className={`${customFont.className} my-8`}>
                 <div className="text-center">
-                    <h1 className="font-bold text-3xl mb-4">
+                    <h1 className="font-bold text-3xl mb-4 print:text-xl">
                         {testDocument.title}
                     </h1>
                     <PrintButton />

@@ -9,16 +9,22 @@ export default function Questions({
     return (
         <div>
             {questions.map((question, index) => (
-                <div className="my-12 print:break-inside-avoid" key={index}>
+                <div
+                    className="my-12 print:break-inside-avoid print:text-xs"
+                    key={index}
+                >
                     {'questionMaterial' in question && (
-                        <p className="mb-4">
+                        <p className="mb-5">
                             <RichContent content={question.questionMaterial} />
                         </p>
                     )}
-                    <p className={!('choices' in question) ? 'mb-80' : 'mb-4'}>
-                        <strong>{index + 1}.</strong>{' '}
+                    <p className="mb-4">
+                        <strong>{index + 1}.</strong>&nbsp;&nbsp;
                         <RichContent content={question.questionStatement} />
                     </p>
+                    {!('choices' in question) && (
+                        <div className="min-h-32"></div>
+                    )}
                     {'choices' in question &&
                         question.choices.map((choice, index) => {
                             const isChoiceMultiline =
