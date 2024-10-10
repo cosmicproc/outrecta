@@ -7,13 +7,12 @@ export default function Answers({
     questions: TestDocument['questions'];
 }) {
     return (
-        <div className="my-10">
+        <ol className="my-10 list-decimal marker:font-bold list-inside print:text-xs">
             {questions.map((question, index) => (
-                <p
+                <li
                     key={index}
-                    className={`print:break-inside-avoid print:text-xs ${!('correctChoiceIndex' in question) && 'mb-20'}`}
+                    className={`print:break-inside-avoid ${!('correctChoiceIndex' in question) && 'mb-14 print:mb-10'}`}
                 >
-                    <strong>{index + 1}.</strong>&nbsp;&nbsp;
                     <RichContent
                         content={
                             'correctChoiceIndex' in question
@@ -23,8 +22,8 @@ export default function Answers({
                                 : question.answerText + '\n'
                         }
                     />
-                </p>
+                </li>
             ))}
-        </div>
+        </ol>
     );
 }

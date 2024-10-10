@@ -26,7 +26,9 @@ export default function Answersheet() {
                         Answersheet: <br />
                         {testDocument.title}
                     </h1>
-                    <PrintButton />
+                    <div className="print:hidden">
+                        <PrintButton />
+                    </div>
                 </div>
                 {testDocument.answersIncluded ? (
                     <Answers questions={testDocument.questions} />
