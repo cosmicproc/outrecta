@@ -16,6 +16,8 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
         return { failed: true };
     }
 
+    let inputTokens = 0;
+    let outputTokens = 0;
     let questions = new Array();
     // Track iterations and errors just in case and short-circuit if sth goes wrong.
     let iteration = 0;
@@ -29,27 +31,29 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
         }
         let newQuestions = new Array();
         try {
-            newQuestions = (
-                await generateObject({
-                    model,
-                    temperature: data.creativity / 100,
-                    output: 'array',
-                    schema: genQuestionSchema(
-                        data.choiceCount,
-                        data.includeAnswers,
-                        data.testType,
-                    ),
-                    system: dedent`
+            const generatedQuestions = await generateObject({
+                model,
+                temperature: data.creativity / 100,
+                output: 'array',
+                schema: genQuestionSchema(
+                    data.choiceCount,
+                    data.includeAnswers,
+                    data.testType,
+                ),
+                system: dedent`
                         You are a question generator. You are asked to generate questions for a test.
                         Use LaTeX (KaTeX) with mhchem when useful. Do not use Markdown except for code.
+                        Always wrap LaTeX in $ for inline or $$ for display.
                     `,
-                    prompt: dedent`
-                        Generate ${data.questionCount} questions for a test about "${data.topic}".
+                prompt: dedent`
+                        Generate ${data.questionCount} questions for a test about "${data.topic.trim()}".
                         ${mapDifficultyToText(data.difficulty)}
-                        ${data.customInstructions}
+                        ${data.customInstructions?.trim()}
                     `,
-                })
-            ).object;
+            });
+            inputTokens += generatedQuestions.usage.promptTokens;
+            outputTokens += generatedQuestions.usage.completionTokens;
+            newQuestions = generatedQuestions.object;
         } catch (error) {
             if (
                 APICallError.isInstance(error) ||
@@ -77,6 +81,8 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
             title: data.manualTitle || data.topic,
             questions,
             answersIncluded: data.includeAnswers,
+            inputTokens,
+            outputTokens,
         },
     };
 }

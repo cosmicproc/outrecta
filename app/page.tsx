@@ -187,9 +187,6 @@ export default function Home() {
                         errorMessage={errors.apiKey?.message}
                         {...register('apiKey')}
                     />
-                    <Switch {...register('includeAnswers')}>
-                        Include the answersheet.
-                    </Switch>
                     <Controller
                         name="testType"
                         control={control}
@@ -254,6 +251,10 @@ export default function Home() {
                                         />
                                     )}
                                 />
+                                <Switch {...register('includeAnswers')}>
+                                    Include the answersheet (improves question
+                                    quality)
+                                </Switch>
                                 {watchTestType === 'multiple-choice' && (
                                     <Input
                                         label="Choice count per question"

@@ -6,7 +6,7 @@ import { TestDocument } from '../constants/types';
 import { useEffect, useState } from 'react';
 
 export default function Document() {
-    const [answersIncluded, setAnswersIncluded] = useState<boolean>(true);
+    const [testDocument, setTestDocument] = useState<TestDocument | null>();
 
     useEffect(() => {
         const testDocumentRaw = localStorage.getItem('questions');
@@ -15,7 +15,7 @@ export default function Document() {
         if (!testDocument) {
             return notFound();
         }
-        setAnswersIncluded(testDocument.answersIncluded);
+        setTestDocument(testDocument);
     }, []);
 
     return (
@@ -23,7 +23,16 @@ export default function Document() {
             <div className="text-center mt-8">
                 <h1 className="text-3xl mb-4 font-black">Outrecta</h1>
                 <h3 className="text-xl font-medium">Your test is ready!</h3>
-                <div className="space-x-4 space-y-4 my-6">
+                {testDocument?.inputTokens && testDocument?.outputTokens && (
+                    <span className="text-gray-600 dark:text-gray-400 text-sm">
+                        Used{' '}
+                        {testDocument.inputTokens + testDocument.outputTokens}{' '}
+                        tokens ({testDocument.inputTokens} in,{' '}
+                        {testDocument.outputTokens} out)
+                    </span>
+                )}
+
+                <div className="space-x-4 space-y-4 mt-2">
                     <Button
                         href="/test"
                         as={Link}
@@ -39,7 +48,7 @@ export default function Document() {
                         color="primary"
                         showAnchorIcon
                         variant="ghost"
-                        isDisabled={!answersIncluded}
+                        isDisabled={!testDocument?.answersIncluded}
                     >
                         Go to answersheet
                     </Button>

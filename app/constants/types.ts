@@ -14,4 +14,6 @@ export type TestDocument = {
           }
     )[];
     answersIncluded: boolean;
+    inputTokens: number;
+    outputTokens: number;
 };

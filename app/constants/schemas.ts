@@ -88,14 +88,17 @@ export const genQuestionSchema = (
                   choices: z
                       .array(z.string())
                       .length(choiceCount)
-                      .describe('Answer choices of the question.'),
+                      .describe(
+                          'Shuffled answer choices of the question with the correct one.',
+                      ),
                   ...(includeAnswers
                       ? {
                             correctChoiceIndex: z
                                 .number()
+                                .min(0)
                                 .max(choiceCount - 1)
                                 .describe(
-                                    'The correct choice index that is random in every question (0-indexed).',
+                                    'The index of correct answer choice.',
                                 ),
                         }
                       : {}),
