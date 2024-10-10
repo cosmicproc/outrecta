@@ -3,8 +3,10 @@ import RichContent from './RichContent';
 
 export default function Questions({
     questions,
+    showSpaces,
 }: {
     questions: TestDocument['questions'];
+    showSpaces: boolean;
 }) {
     return (
         <div>
@@ -22,7 +24,7 @@ export default function Questions({
                         <strong>{index + 1}.</strong>&nbsp;&nbsp;
                         <RichContent content={question.questionStatement} />
                     </p>
-                    {!('choices' in question) && (
+                    {!('choices' in question) && showSpaces && (
                         <div className="min-h-32"></div>
                     )}
                     {'choices' in question &&

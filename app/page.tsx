@@ -6,6 +6,8 @@ import {
     Accordion,
     AccordionItem,
     Button,
+    Card,
+    CardBody,
     Radio,
     RadioGroup,
     Select,
@@ -33,6 +35,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Greeter from './components/Greeter';
 import { modelNames } from './constants/ai';
+import { AnimatePresence, LazyMotion, m, domAnimation } from 'framer-motion';
 
 export default function Home() {
     const router = useRouter();
@@ -100,6 +103,7 @@ export default function Home() {
 
     const watchTestType = watch('testType');
     const watchModel = watch('model');
+    const watchCustomInstructions = watch('customInstructions');
 
     return (
         <>
@@ -292,7 +296,29 @@ export default function Home() {
                             </div>
                         </AccordionItem>
                     </Accordion>
-
+                    <LazyMotion features={domAnimation}>
+                        <AnimatePresence>
+                            {watchCustomInstructions?.trim() && (
+                                <m.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                >
+                                    <Card>
+                                        <CardBody>
+                                            <div>
+                                                <strong className="text-yellow-500 mr-1">
+                                                    Warning:
+                                                </strong>
+                                                Custom instructions are being
+                                                used in advanced settings.
+                                            </div>
+                                        </CardBody>
+                                    </Card>
+                                </m.div>
+                            )}
+                        </AnimatePresence>
+                    </LazyMotion>
                     {failed && (
                         <p className="mb-4 text-red-500">
                             Generation Failed. <br />
