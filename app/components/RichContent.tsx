@@ -32,6 +32,7 @@ export default function RichContent({ content }: { content: string }) {
             )
             .replaceAll(/`([^`]+)`/g, (_, code) => `<code>${code}</code>`)
             .replaceAll(/\*\*([^\*]+)\*\*/g, (_, code) => `<b>${code}</b>`)
+            .replaceAll(/\*([^\*]+)\*/g, (_, code) => `<i>${code}</i>`)
             .replaceAll(/(?<!\\\[)(?<!\\\()(\\n)(?!\\\])(?!\\\))/g, '<br />')
             .replaceAll(/(?<!\\\[)(?<!\\\()(\n)(?!\\\])(?!\\\))/g, '<br />')
             .trim();

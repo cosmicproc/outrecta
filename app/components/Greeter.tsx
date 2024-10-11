@@ -50,6 +50,14 @@ export default function Greeter() {
                                 <Link isExternal href="https://openai.com/api/">
                                     OpenAI API
                                 </Link>
+                                . If you are unsure, you can get a free API key
+                                from{' '}
+                                <Link
+                                    isExternal
+                                    href="http://aistudio.google.com/"
+                                >
+                                    Google AI Studio
+                                </Link>
                                 . Choose the model provider you prefer and enter
                                 your API key first. Your API key will not be
                                 sent to our servers (requests are done from your

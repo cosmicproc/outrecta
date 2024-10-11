@@ -19,47 +19,51 @@ export default function Questions({
                     )}
                     <li className="mb-12 print:mb-8">
                         <RichContent content={question.questionStatement} />
-                        <div
-                            className={`${!('choices' in question) && showSpaces ? 'h-32' : 'h-2'}`}
-                        ></div>
-                        {'choices' in question &&
-                            question.choices.map((choice, index) => {
-                                const isChoiceMultiline =
-                                    choice.match('\n') || choice.match('\\\\n');
-                                const indicator = String.fromCharCode(
-                                    97 + index,
-                                );
+                        {!('choices' in question) && showSpaces && (
+                            <div className="h-32"></div>
+                        )}
+                        {'choices' in question && (
+                            <ol className="mt-2">
+                                {question.choices.map((choice, index) => {
+                                    const isChoiceMultiline =
+                                        choice.match('\n') ||
+                                        choice.match('\\\\n');
+                                    const indicator = String.fromCharCode(
+                                        97 + index,
+                                    );
 
-                                return (
-                                    <div
-                                        key={index}
-                                        className={
-                                            isChoiceMultiline ? 'my-4' : ''
-                                        }
-                                    >
-                                        {isChoiceMultiline && (
-                                            <>{indicator}) </>
-                                        )}
-                                        <p
+                                    return (
+                                        <li
+                                            key={index}
                                             className={
-                                                isChoiceMultiline
-                                                    ? 'my-2 ml-1 border-gray-700 dark:border-gray-300 border-l-2 pl-3'
-                                                    : ''
+                                                isChoiceMultiline ? 'my-4' : ''
                                             }
                                         >
-                                            {!isChoiceMultiline && (
+                                            {isChoiceMultiline && (
                                                 <>{indicator}) </>
                                             )}
-                                            <RichContent
-                                                content={choice.replace(
-                                                    /^[a-zA-Z0-9]+[\),.]\s*/,
-                                                    '',
+                                            <p
+                                                className={
+                                                    isChoiceMultiline
+                                                        ? 'my-2 ml-1 border-gray-700 dark:border-gray-300 border-l-2 pl-3'
+                                                        : ''
+                                                }
+                                            >
+                                                {!isChoiceMultiline && (
+                                                    <>{indicator}) </>
                                                 )}
-                                            />
-                                        </p>
-                                    </div>
-                                );
-                            })}
+                                                <RichContent
+                                                    content={choice.replace(
+                                                        /^[a-zA-Z0-9]+[\),.]\s*/,
+                                                        '',
+                                                    )}
+                                                />
+                                            </p>
+                                        </li>
+                                    );
+                                })}
+                            </ol>
+                        )}
                     </li>
                 </div>
             ))}
