@@ -24,44 +24,20 @@ export default function Questions({
                         )}
                         {'choices' in question && (
                             <ol className="mt-2">
-                                {question.choices.map((choice, index) => {
-                                    const isChoiceMultiline =
-                                        choice.match('\n') ||
-                                        choice.match('\\\\n');
-                                    const indicator = String.fromCharCode(
-                                        97 + index,
-                                    );
-
-                                    return (
-                                        <li
-                                            key={index}
-                                            className={
-                                                isChoiceMultiline ? 'my-4' : ''
-                                            }
-                                        >
-                                            {isChoiceMultiline && (
-                                                <>{indicator}) </>
-                                            )}
-                                            <p
-                                                className={
-                                                    isChoiceMultiline
-                                                        ? 'my-2 ml-1 border-gray-700 dark:border-gray-300 border-l-2 pl-3'
-                                                        : ''
-                                                }
-                                            >
-                                                {!isChoiceMultiline && (
-                                                    <>{indicator}) </>
+                                {question.choices.map((choice, index) => (
+                                    <li key={index}>
+                                        <p>
+                                            {String.fromCharCode(97 + index)}
+                                            )&nbsp;
+                                            <RichContent
+                                                content={choice.replace(
+                                                    /^[a-zA-Z0-9]+[\),.]\s*/,
+                                                    '',
                                                 )}
-                                                <RichContent
-                                                    content={choice.replace(
-                                                        /^[a-zA-Z0-9]+[\),.]\s*/,
-                                                        '',
-                                                    )}
-                                                />
-                                            </p>
-                                        </li>
-                                    );
-                                })}
+                                            />
+                                        </p>
+                                    </li>
+                                ))}
                             </ol>
                         )}
                     </li>

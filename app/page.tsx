@@ -306,7 +306,7 @@ export default function Home() {
                                     <Card>
                                         <CardBody>
                                             <div>
-                                                <strong className="text-yellow-500 mr-1">
+                                                <strong className="text-yellow-600 dark:text-yellow-400 mr-1">
                                                     Warning:
                                                 </strong>
                                                 Custom instructions are being

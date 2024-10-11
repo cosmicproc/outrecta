@@ -77,11 +77,11 @@ export const genQuestionSchema = (
             .string()
             .optional()
             .describe(
-                'Optional question material like passages, variables, equations, code snippets, etc. that can be refered to in question statement. Do not repeat in question statement.',
+                'Optional materials (e.g., passages, variables, equations, code snippets). Must not include the question itself; these should be referenced in the question statement.',
             ),
         questionStatement: z
             .string()
-            .describe('Question statement that asks question.'),
+            .describe('The question statement that asks question.'),
 
         ...(testType === 'multiple-choice'
             ? {
@@ -89,7 +89,7 @@ export const genQuestionSchema = (
                       .array(z.string())
                       .length(choiceCount)
                       .describe(
-                          'Shuffled answer choices of the question with the correct one.',
+                          'A set of shuffled answer choices, including the correct option.',
                       ),
                   ...(includeAnswers
                       ? {
@@ -109,7 +109,7 @@ export const genQuestionSchema = (
                             answerText: z
                                 .string()
                                 .describe(
-                                    'A thorough explanation of question.',
+                                    'A detailed explanation of the question with key reasoning and concepts.',
                                 ),
                         }
                       : {}),
