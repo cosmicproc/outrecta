@@ -61,7 +61,6 @@ export default function Home() {
                 JSON.parse(localFormDataRaw),
             );
             if (localFormData.success) {
-                localFormData.data.topic = '';
                 reset(localFormData.data);
                 return;
             }
