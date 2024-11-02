@@ -4,7 +4,7 @@ import { TestDocument } from '@/app/constants/types';
 import PrintButton from '@/app/components/PrintButton';
 import Questions from '@/app/components/Questions';
 import { notFound } from 'next/navigation';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { customFont } from '../constants/etc';
 import { Button } from '@nextui-org/react';
 
@@ -32,7 +32,7 @@ export default function Test() {
                     <h1 className="font-bold text-3xl mb-4 print:text-xl">
                         {testDocument.title}
                     </h1>
-                    <div className="print:hidden space-x-4">
+                    <div className="print:hidden space-x-4 ">
                         <PrintButton />
                         {!('choices' in testDocument.questions[0]) && (
                             <Button

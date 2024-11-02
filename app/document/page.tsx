@@ -48,7 +48,6 @@ export default function Document() {
                         color="primary"
                         showAnchorIcon
                         variant="ghost"
-                        isDisabled={!testDocument?.answersIncluded}
                     >
                         Go to answersheet
                     </Button>
@@ -59,9 +58,9 @@ export default function Document() {
                         <CardBody>
                             <p className="mb-4">
                                 <strong>TIP:</strong> You can print the test and
-                                answersheet page to PDF to save it on your
-                                device or share with others. You can also print
-                                it directly.
+                                answersheet page into a PDF file to save it on
+                                your device or share with others. You can also
+                                print them physically.
                             </p>
                             <p>
                                 <strong className="text-red-600">

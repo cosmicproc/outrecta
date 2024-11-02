@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.letter-list {
+    counter-reset: list;
+}
+.letter-list > li {
+    list-style: none;
+}
+.letter-list > li:before {
+    content: counter(list, lower-alpha) ') ';
+    counter-increment: list;
+}

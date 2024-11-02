@@ -6,23 +6,32 @@ export default function Answers({
 }: {
     questions: TestDocument['questions'];
 }) {
+    const averageLen =
+        questions.reduce((x, y) => x + y.answerText.length, 0) /
+        questions.length;
+
+    let answerSpacing = 'mb-0.5';
+    if (averageLen > 750) {
+        answerSpacing = 'mb-32 print:mb-20';
+    } else if (averageLen > 100) {
+        answerSpacing = 'mb-14 print:mb-10';
+    } else if (averageLen > 20) {
+        answerSpacing = 'mb-3';
+    }
+
     return (
-        <div
-            className={`${'correctChoiceIndex' in questions[0] ? 'flex justify-center' : ''}`}
-        >
+        <div>
             <ol className="my-10 list-decimal marker:font-bold print:text-xs">
                 {questions.map((question, index) => (
                     <li
                         key={index}
-                        className={`print:break-inside-avoid ${!('correctChoiceIndex' in question) && 'mb-14 print:mb-10'}`}
+                        className={`print:break-inside-avoid ${answerSpacing}`}
                     >
                         <RichContent
                             content={
-                                'correctChoiceIndex' in question
-                                    ? String.fromCharCode(
-                                          65 + question.correctChoiceIndex,
-                                      )
-                                    : question.answerText + '\n'
+                                question.answerText.length === 1
+                                    ? question.answerText.toUpperCase()
+                                    : question.answerText
                             }
                         />
                     </li>

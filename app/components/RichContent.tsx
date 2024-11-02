@@ -22,7 +22,9 @@ export default function RichContent({ content }: { content: string }) {
         }
     }, []);
 
-    const rendered = DOMPurify.sanitize(content.trim());
+    const rendered = DOMPurify.sanitize(
+        content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'),
+    );
     return (
         <span
             className="[&>pre]:whitespace-pre-wrap"

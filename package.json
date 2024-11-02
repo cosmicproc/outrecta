@@ -10,22 +10,21 @@
         "format": "prettier -w ."
     },
     "dependencies": {
-        "@ai-sdk/anthropic": "^0.0.51",
-        "@ai-sdk/azure": "^0.0.45",
-        "@ai-sdk/google": "^0.0.51",
-        "@ai-sdk/openai": "^0.0.66",
-        "@hookform/resolvers": "^3.9.0",
+        "@ai-sdk/anthropic": "^0.0.53",
+        "@ai-sdk/azure": "^0.0.51",
+        "@ai-sdk/google": "^0.0.55",
+        "@ai-sdk/openai": "^0.0.71",
+        "@hookform/resolvers": "^3.9.1",
         "@nextui-org/react": "^2.4.8",
-        "ai": "^3.4.9",
+        "ai": "^3.4.31",
         "dedent": "^1.5.3",
         "dompurify": "^3.1.7",
-        "framer-motion": "^11.11.7",
         "katex": "^0.16.11",
-        "next": "^14.2.15",
+        "next": "^15.0.2",
         "next-themes": "^0.3.0",
         "react": "^18",
         "react-dom": "^18",
-        "react-hook-form": "^7.53.0",
+        "react-hook-form": "^7.53.1",
         "zod": "^3.23.8"
     },
     "devDependencies": {
@@ -34,14 +33,14 @@
         "@types/node": "^22",
         "@types/react": "^18",
         "@types/react-dom": "^18",
-        "eslint": "^8",
-        "eslint-config-next": "14.2.15",
+        "eslint": "^9",
+        "eslint-config-next": "15.0.2",
         "eslint-config-prettier": "^9.1.0",
-        "lucide-react": "^0.451.0",
+        "lucide-react": "^0.454.0",
         "postcss": "^8",
         "prettier": "^3.3.3",
-        "tailwindcss": "^3.4.13",
+        "tailwindcss": "^3.4.14",
         "typescript": "^5",
-        "vercel": "^37.8.0"
+        "vercel": "^37.14.0"
     }
 }

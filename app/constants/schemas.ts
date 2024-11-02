@@ -3,22 +3,22 @@ import { models } from './ai';
 
 export const generationSchema = z
     .object({
-        topic: z
+        topics: z
             .string()
             .min(1, {
-                message: 'Topic cannot be empty.',
+                message: 'Topics cannot be empty.',
             })
-            .max(200, {
-                message: 'Topic cannot be longer than 200 characters.',
+            .max(1000, {
+                message: 'Topics cannot be longer than 1000 characters.',
             }),
         questionCount: z.coerce
             .number({ message: 'Question count must be a number.' })
             .int({ message: 'Question count must be an integer.' })
             .min(1, { message: 'Question count cannot be smaller than 1.' })
             .max(50, { message: 'Question count cannot be more than 50.' }),
-        includeAnswers: z.boolean(),
+        explainAnswers: z.boolean(),
         testType: z.enum(['multiple-choice', 'open-ended']),
-        difficulty: z.number().int().min(0).max(10),
+        difficulty: z.number().int().min(0).max(6),
         choiceCount: z.coerce
             .number({ message: 'Choice count count must be a number.' })
             .int({ message: 'Choice count must be an integer.' })
@@ -69,49 +69,35 @@ export const generationSchema = z
 
 export const genQuestionSchema = (
     choiceCount: number,
-    includeAnswers: boolean,
     testType: 'multiple-choice' | 'open-ended',
+    explainAnswers: boolean,
 ) =>
     z.object({
         questionMaterial: z
             .string()
             .optional()
             .describe(
-                'Optional materials (e.g., passages, variables, equations, code snippets). Must not include the question itself; these should be referenced in the question statement.',
+                'Question materials like variables, code snippets, passages, etc. to be referenced in the questionStatement. It must not contain ANY imperative sentence.',
             ),
-        questionStatement: z
-            .string()
-            .describe('The question statement that asks question.'),
-
+        questionStatement: z.string(),
         ...(testType === 'multiple-choice'
             ? {
                   choices: z
                       .array(z.string())
                       .length(choiceCount)
                       .describe(
-                          'A set of shuffled answer choices, including the correct option.',
+                          'The shuffled answer choices, with exactly one correct option among them. Start each option directly without any indicators.',
                       ),
-                  ...(includeAnswers
-                      ? {
-                            correctChoiceIndex: z
-                                .number()
-                                .min(0)
-                                .max(choiceCount - 1)
-                                .describe(
-                                    'The index of correct answer choice.',
-                                ),
-                        }
-                      : {}),
               }
-            : {
-                  ...(includeAnswers
-                      ? {
-                            answerText: z
-                                .string()
-                                .describe(
-                                    'A detailed explanation of the question with key reasoning and concepts.',
-                                ),
-                        }
-                      : {}),
-              }),
+            : {}),
+        answerText: z
+            .string()
+            .describe(
+                (explainAnswers
+                    ? `A step-by-step explanation that covers key concepts and builds to the solution. Separate neatly into paragraphs by using </br></br>.`
+                    : 'Answer text with only the final answer or solution.') +
+                    (testType === 'multiple-choice'
+                        ? " Indicate the letter (a, b, etc.) corresponding to the correct answer's position in the list of choices."
+                        : ''),
+            ),
     });

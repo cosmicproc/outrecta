@@ -30,11 +30,7 @@ export default function Answersheet() {
                         <PrintButton />
                     </div>
                 </div>
-                {testDocument.answersIncluded ? (
-                    <Answers questions={testDocument.questions} />
-                ) : (
-                    <p className="mt-8">Answersheet wasn&apos;t generated.</p>
-                )}
+                <Answers questions={testDocument.questions} />
             </main>
         );
     }

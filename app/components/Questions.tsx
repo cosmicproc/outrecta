@@ -23,19 +23,15 @@ export default function Questions({
                             <div className="h-32"></div>
                         )}
                         {'choices' in question && (
-                            <ol className="mt-2">
+                            <ol className="letter-list mt-3">
                                 {question.choices.map((choice, index) => (
                                     <li key={index}>
-                                        <p>
-                                            {String.fromCharCode(97 + index)}
-                                            )&nbsp;
-                                            <RichContent
-                                                content={choice.replace(
-                                                    /^[a-zA-Z0-9]+[\),.]\s*/,
-                                                    '',
-                                                )}
-                                            />
-                                        </p>
+                                        <RichContent
+                                            content={choice.replace(
+                                                /^\s*?\(?[a-zA-Z0-9]+[\),.]\s*/,
+                                                '',
+                                            )}
+                                        />
                                     </li>
                                 ))}
                             </ol>

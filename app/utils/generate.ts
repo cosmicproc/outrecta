@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { generationSchema, genQuestionSchema } from '../constants/schemas';
-import { generateObject, APICallError, RetryError, Provider } from 'ai';
+import { generateObject, APICallError, RetryError } from 'ai';
 import { getModel, Providers } from '../constants/ai';
 import dedent from 'dedent';
-import { mapDifficultyToText } from './difficulty';
+import { mapDifficultyToText, truncate } from './text';
 
 export default async function generate(data: z.infer<typeof generationSchema>) {
     const model = getModel(
@@ -16,6 +16,9 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
         return { failed: true };
     }
 
+    data.topics = data.topics.trim();
+    data.customInstructions = data.customInstructions?.trim();
+
     let inputTokens = 0;
     let outputTokens = 0;
     let questions = new Array();
@@ -24,7 +27,7 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
     let errors = 0;
     while (
         questions.length < data.questionCount &&
-        iteration < Math.max(data.questionCount / 3, 6)
+        iteration <= data.questionCount
     ) {
         if (errors >= 5) {
             return { failed: true };
@@ -34,24 +37,34 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
             const generatedQuestions = await generateObject({
                 model,
                 temperature: data.creativity / 100,
-                output: 'array',
+                output: 'object',
                 schema: genQuestionSchema(
                     data.choiceCount,
-                    data.includeAnswers,
                     data.testType,
-                ),
+                    data.explainAnswers,
+                )
+                    .array()
+                    .min(Math.min(data.questionCount - iteration, 5))
+                    .max(data.questionCount),
                 system: dedent`
-                        You are tasked with generating test questions. Follow these guidelines:
-	                    - Use LaTeX with mhchem when relevant (for math, etc.). Properly wrap LaTeX in $.
+                        You are a test generator and you will be provided with some info about the test to generate.
+                        You must follow these guidelines:
+	                    - Use LaTeX with mhchem when relevant. Properly wrap it in delimeters.
 	                    - Do not use any Markdown.
-                        - Use </br> for line breaks. Do not use \\n.
-                        - Use <code> and <pre> for program codes.
+                        - Use </br> for line breaks. Do not use backslash n.
+                        - Use <pre> for code snippets.
+                        - All questions must be unique.
+                        - Applied questions are highly preferred.
                     `,
-                prompt: dedent`
-                        Generate ${data.questionCount} questions for a test about "${data.topic.trim()}".
-                        ${mapDifficultyToText(data.difficulty)}
-                        ${data.customInstructions?.trim()}
-                    `,
+                prompt: JSON.stringify({
+                    topics: data.topics
+                        .split(',')
+                        .map((topic) => topic.trim().toLowerCase()),
+                    difficulty: mapDifficultyToText(data.difficulty),
+                    ...(data.customInstructions && {
+                        customInstructions: data.customInstructions,
+                    }),
+                }),
             });
             inputTokens += generatedQuestions.usage.promptTokens;
             outputTokens += generatedQuestions.usage.completionTokens;
@@ -80,9 +93,8 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
 
     return {
         document: {
-            title: data.manualTitle || data.topic,
+            title: data.manualTitle || truncate(data.topics, 50),
             questions,
-            answersIncluded: data.includeAnswers,
             inputTokens,
             outputTokens,
         },

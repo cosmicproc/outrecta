@@ -5,7 +5,7 @@ export type TestDocument = {
               questionStatement: string;
               questionMaterial: string;
               choices: string[];
-              correctChoiceIndex: number;
+              answerText: string;
           }
         | {
               questionMaterial: string;
@@ -13,7 +13,6 @@ export type TestDocument = {
               answerText: string;
           }
     )[];
-    answersIncluded: boolean;
     inputTokens: number;
     outputTokens: number;
 };

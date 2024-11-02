@@ -1,8 +1,15 @@
 'use client';
 
 import { NextUIProvider } from '@nextui-org/react';
-import { ThemeProvider } from 'next-themes';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
+
+const NextThemesProvider = dynamic(
+    () => import('next-themes').then((e) => e.ThemeProvider),
+    {
+        ssr: false,
+    },
+);
 
 export default function Providers({
     children,
@@ -13,7 +20,9 @@ export default function Providers({
 
     return (
         <NextUIProvider navigate={router.push} className="flex flex-col grow">
-            <ThemeProvider attribute="class">{children}</ThemeProvider>
+            <NextThemesProvider attribute="class">
+                {children}
+            </NextThemesProvider>
         </NextUIProvider>
     );
 }
