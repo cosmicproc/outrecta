@@ -4,7 +4,7 @@ export type TestDocument = {
         | {
               questionStatement: string;
               questionMaterial: string;
-              choices: string[];
+              answerChoices: string[];
               answerText: string;
           }
         | {

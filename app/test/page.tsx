@@ -34,7 +34,7 @@ export default function Test() {
                     </h1>
                     <div className="print:hidden space-x-4 ">
                         <PrintButton />
-                        {!('choices' in testDocument.questions[0]) && (
+                        {!('answerChoices' in testDocument.questions[0]) && (
                             <Button
                                 variant="faded"
                                 onPress={() => {

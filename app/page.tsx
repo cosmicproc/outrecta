@@ -49,7 +49,7 @@ export default function Home() {
             explainAnswers: true,
             testType: 'multiple-choice',
             difficulty: 3,
-            creativity: 50,
+            creativity: 10,
             choiceCount: 4,
         });
     }, [reset]);

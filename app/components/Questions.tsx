@@ -19,15 +19,15 @@ export default function Questions({
                     )}
                     <li className="mb-12 print:mb-8">
                         <RichContent content={question.questionStatement} />
-                        {!('choices' in question) && showSpaces && (
+                        {!('answerChoices' in question) && showSpaces && (
                             <div className="h-32"></div>
                         )}
-                        {'choices' in question && (
+                        {'answerChoices' in question && (
                             <ol className="letter-list mt-3">
-                                {question.choices.map((choice, index) => (
+                                {question.answerChoices.map((answerChoice, index) => (
                                     <li key={index}>
                                         <RichContent
-                                            content={choice.replace(
+                                            content={answerChoice.replace(
                                                 /^\s*?\(?[a-zA-Z0-9]+[\),.]\s*/,
                                                 '',
                                             )}

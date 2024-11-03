@@ -37,15 +37,12 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
             const generatedQuestions = await generateObject({
                 model,
                 temperature: data.creativity / 100,
-                output: 'object',
+                output: 'array',
                 schema: genQuestionSchema(
                     data.choiceCount,
                     data.testType,
                     data.explainAnswers,
-                )
-                    .array()
-                    .min(Math.min(data.questionCount - iteration, 5))
-                    .max(data.questionCount),
+                ),
                 system: dedent`
                         You are a test generator and you will be provided with some info about the test to generate.
                         You must follow these guidelines:
@@ -55,8 +52,10 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                         - Use <pre> for code snippets.
                         - All questions must be unique.
                         - Applied questions are highly preferred.
+                        - Questions must evenly cover the topics provided (and subtopics of them).
                     `,
                 prompt: JSON.stringify({
+                    questionCount: data.questionCount - questions.length,
                     topics: data.topics
                         .split(',')
                         .map((topic) => topic.trim().toLowerCase()),

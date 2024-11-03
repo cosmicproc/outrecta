@@ -11,7 +11,7 @@ export default function Answers({
         questions.length;
 
     let answerSpacing = 'mb-0.5';
-    if (averageLen > 750) {
+    if (averageLen > 1000) {
         answerSpacing = 'mb-32 print:mb-20';
     } else if (averageLen > 100) {
         answerSpacing = 'mb-14 print:mb-10';
@@ -27,13 +27,7 @@ export default function Answers({
                         key={index}
                         className={`print:break-inside-avoid ${answerSpacing}`}
                     >
-                        <RichContent
-                            content={
-                                question.answerText.length === 1
-                                    ? question.answerText.toUpperCase()
-                                    : question.answerText
-                            }
-                        />
+                        <RichContent content={question.answerText} />
                     </li>
                 ))}
             </ol>

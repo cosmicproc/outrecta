@@ -16,7 +16,6 @@ export const generationSchema = z
             .int({ message: 'Question count must be an integer.' })
             .min(1, { message: 'Question count cannot be smaller than 1.' })
             .max(50, { message: 'Question count cannot be more than 50.' }),
-        explainAnswers: z.boolean(),
         testType: z.enum(['multiple-choice', 'open-ended']),
         difficulty: z.number().int().min(0).max(6),
         choiceCount: z.coerce
@@ -32,6 +31,7 @@ export const generationSchema = z
         azureDeploymentName: z.string().optional(),
         apiKey: z.string().min(1, { message: 'API key cannot be empty.' }),
         creativity: z.number().int().min(0).max(100),
+        explainAnswers: z.boolean(),
         manualTitle: z
             .string()
             .max(200, {
@@ -77,16 +77,16 @@ export const genQuestionSchema = (
             .string()
             .optional()
             .describe(
-                'Question materials like variables, code snippets, passages, etc. to be referenced in the questionStatement. It must not contain ANY imperative sentence.',
+                'Question materials like variables, code snippets, passages, etc. to be referenced in questionStatement. It must not contain any imperative sentence.',
             ),
         questionStatement: z.string(),
         ...(testType === 'multiple-choice'
             ? {
-                  choices: z
+                  answerChoices: z
                       .array(z.string())
                       .length(choiceCount)
                       .describe(
-                          'The shuffled answer choices, with exactly one correct option among them. Start each option directly without any indicators.',
+                          'The shuffled answer choices, with exactly one correct option.',
                       ),
               }
             : {}),
@@ -94,10 +94,10 @@ export const genQuestionSchema = (
             .string()
             .describe(
                 (explainAnswers
-                    ? `A step-by-step explanation that covers key concepts and builds to the solution. Separate neatly into paragraphs by using </br></br>.`
-                    : 'Answer text with only the final answer or solution.') +
+                    ? 'A rigorous explanation of the solution, separated into paragraphs by using </br></br>.'
+                    : 'The final answer of the question.') +
                     (testType === 'multiple-choice'
-                        ? " Indicate the letter (a, b, etc.) corresponding to the correct answer's position in the list of choices."
+                        ? " Indicate the letter (a, b, etc.) corresponding to the correct answer choice's position."
                         : ''),
             ),
     });

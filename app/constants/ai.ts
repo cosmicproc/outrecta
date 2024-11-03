@@ -36,11 +36,11 @@ export function getModel(
         'openai-4o-mini': () => openai('gpt-4o-mini'),
         'openai-o1-mini': () => openai('o1-mini'),
         'openai-4-turbo': () => openai('gpt-4-turbo'),
-        'anthropic-3.5-sonnet': () => anthropic('claude-3-5-sonnet-20240620'),
+        'anthropic-3.5-sonnet': () => anthropic('claude-3-5-sonnet-20241022'),
         'anthropic-3-opus': () => anthropic('claude-3-opus-20240229'),
         'anthropic-3-haiku': () => anthropic('claude-3-haiku-20240307'),
-        'gemini-flash': () => google('gemini-1.5-flash-latest'),
-        'gemini-pro': () => google('gemini-1.5-pro-latest'),
+        'gemini-flash': () => google('gemini-1.5-flash'),
+        'gemini-pro': () => google('gemini-1.5-pro'),
         'azure-openai': () =>
             resourceName && deploymentName
                 ? createAzure({ apiKey, resourceName })(deploymentName)
