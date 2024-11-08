@@ -24,16 +24,15 @@ export default function Questions({
                         )}
                         {'answerChoices' in question && (
                             <ol className="letter-list mt-3">
-                                {question.answerChoices.map((answerChoice, index) => (
-                                    <li key={index}>
-                                        <RichContent
-                                            content={answerChoice.replace(
-                                                /^\s*?\(?[a-zA-Z0-9]+[\),.]\s*/,
-                                                '',
-                                            )}
-                                        />
-                                    </li>
-                                ))}
+                                {question.answerChoices.map(
+                                    (answerChoice, index) => (
+                                        <li key={index}>
+                                            <RichContent
+                                                content={answerChoice}
+                                            />
+                                        </li>
+                                    ),
+                                )}
                             </ol>
                         )}
                     </li>

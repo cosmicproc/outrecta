@@ -14,8 +14,8 @@ import {
     FieldErrors,
     UseFormRegister,
 } from 'react-hook-form';
-import { generationSchema } from '../constants/schemas';
 import { z } from 'zod';
+import { generationSchema } from '../constants/schemas';
 
 export default function AdvancedOptionsFields({
     register,

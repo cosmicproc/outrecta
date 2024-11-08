@@ -1,8 +1,8 @@
 'use client';
 
-import { TestDocument } from '@/app/constants/types';
-import PrintButton from '@/app/components/PrintButton';
 import Answers from '@/app/components/Answers';
+import PrintButton from '@/app/components/PrintButton';
+import { TestDocument } from '@/app/constants/types';
 import { notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { customFont } from '../constants/etc';

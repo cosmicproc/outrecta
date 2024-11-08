@@ -1,23 +1,21 @@
-import { z } from 'zod';
-import { generationSchema, genQuestionSchema } from '../constants/schemas';
-import { generateObject, APICallError, RetryError } from 'ai';
-import { getModel, Providers } from '../constants/ai';
+import { APICallError, generateObject, RetryError } from 'ai';
 import dedent from 'dedent';
+import { z } from 'zod';
+import { getModel, modelMaxTemps } from '../constants/ai';
+import { generationSchema, genQuestionSchema } from '../constants/schemas';
 import { mapDifficultyToText, truncate } from './text';
 
 export default async function generate(data: z.infer<typeof generationSchema>) {
     const model = getModel(
-        data.model as Providers,
+        data.modelName,
         data.apiKey,
         data.azureResourceName,
         data.azureDeploymentName,
     );
+
     if (!model) {
         return { failed: true };
     }
-
-    data.topics = data.topics.trim();
-    data.customInstructions = data.customInstructions?.trim();
 
     let inputTokens = 0;
     let outputTokens = 0;
@@ -36,7 +34,8 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
         try {
             const generatedQuestions = await generateObject({
                 model,
-                temperature: data.creativity / 100,
+                temperature:
+                    (data.creativity / 100) * modelMaxTemps[data.modelName],
                 output: 'array',
                 schema: genQuestionSchema(
                     data.choiceCount,
@@ -46,16 +45,14 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                 system: dedent`
                         You are a test generator and you will be provided with some info about the test to generate.
                         You must follow these guidelines:
-	                    - Use LaTeX with mhchem when relevant. Properly wrap it in delimeters.
-	                    - Do not use any Markdown.
-                        - Use </br> for line breaks. Do not use backslash n.
-                        - Use <pre> for code snippets.
+	                    - Use LaTeX with mhchem. Properly wrap LaTeX in delimeters ($,$$,\\(,\\[).
+	                    - Use Markdown for formatting.
                         - All questions must be unique.
                         - Applied questions are highly preferred.
-                        - Questions must evenly cover the topics provided (and subtopics of them).
                     `,
                 prompt: JSON.stringify({
                     questionCount: data.questionCount - questions.length,
+                    language: data.language,
                     topics: data.topics
                         .split(',')
                         .map((topic) => topic.trim().toLowerCase()),

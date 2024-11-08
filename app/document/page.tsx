@@ -2,8 +2,8 @@
 
 import { Button, Card, CardBody, Link } from '@nextui-org/react';
 import { notFound } from 'next/navigation';
-import { TestDocument } from '../constants/types';
 import { useEffect, useState } from 'react';
+import { TestDocument } from '../constants/types';
 
 export default function Document() {
     const [testDocument, setTestDocument] = useState<TestDocument | null>();
@@ -23,14 +23,11 @@ export default function Document() {
             <div className="text-center mt-8">
                 <h1 className="text-3xl mb-4 font-black">Outrecta</h1>
                 <h3 className="text-xl font-medium">Your test is ready!</h3>
-                {testDocument?.inputTokens && testDocument?.outputTokens && (
-                    <span className="text-gray-600 dark:text-gray-400 text-sm">
-                        Used{' '}
-                        {testDocument.inputTokens + testDocument.outputTokens}{' '}
-                        tokens ({testDocument.inputTokens} in,{' '}
-                        {testDocument.outputTokens} out)
-                    </span>
-                )}
+                <div className="text-gray-600 dark:text-gray-400 text-sm min-h-5">
+                    {testDocument?.inputTokens &&
+                        testDocument?.outputTokens &&
+                        `Used ${testDocument.inputTokens + testDocument.outputTokens} tokens (${testDocument.inputTokens} in, ${testDocument.outputTokens} out)`}
+                </div>
 
                 <div className="space-x-4 space-y-4 mt-2">
                     <Button

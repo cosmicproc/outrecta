@@ -3,18 +3,18 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@nextui-org/react';
 import { Atom } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import { generationSchema } from './constants/schemas';
-import { z } from 'zod';
-import generate from './utils/generate';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import AdvancedOptionsFields from './components/AdvancedOptionsFields';
 import Greeter from './components/Greeter';
 import Heading from './components/Heading';
-import TestOptionFields from './components/TestOptionsFields';
-import ModelOptionsFields from './components/ModelOptionsFields';
-import AdvancedOptionsFields from './components/AdvancedOptionsFields';
 import Messages from './components/Messages';
+import ModelOptionsFields from './components/ModelOptionsFields';
+import TestOptionFields from './components/TestOptionsFields';
+import { generationSchema } from './constants/schemas';
+import generate from './utils/generate';
 
 export default function Home() {
     const router = useRouter();
@@ -36,20 +36,19 @@ export default function Home() {
     useEffect(() => {
         const localFormDataRaw = localStorage.getItem('formData');
         if (localFormDataRaw) {
-            const localFormData = generationSchema.safeParse(
-                JSON.parse(localFormDataRaw),
-            );
-            if (localFormData.success) {
-                reset(localFormData.data);
+            try {
+                const localFormData = JSON.parse(localFormDataRaw);
+                reset(localFormData);
                 return;
-            }
+            } catch {}
         }
         reset({
             questionCount: 5,
+            language: 'English',
             explainAnswers: true,
             testType: 'multiple-choice',
             difficulty: 3,
-            creativity: 10,
+            creativity: 50,
             choiceCount: 4,
         });
     }, [reset]);
@@ -97,7 +96,7 @@ export default function Home() {
                     <ModelOptionsFields
                         register={register}
                         errors={errors}
-                        watchModel={watch('model')}
+                        watchModel={watch('modelName')}
                     />
                     <AdvancedOptionsFields
                         register={register}

@@ -1,8 +1,7 @@
 import { createAnthropic } from '@ai-sdk/anthropic';
-import { createOpenAI } from '@ai-sdk/openai';
 import { createAzure } from '@ai-sdk/azure';
-import { LanguageModel } from 'ai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { createOpenAI } from '@ai-sdk/openai';
 
 export const modelNames = {
     'openai-4o': 'GPT4o (OpenAI)',
@@ -15,6 +14,19 @@ export const modelNames = {
     'gemini-flash': 'Gemini 1.5 Flash (Google)',
     'gemini-pro': 'Gemini 1.5 Pro (Google)',
     'azure-openai': 'Azure OpenAI',
+};
+
+export const modelMaxTemps = {
+    'openai-4o': 2,
+    'openai-4o-mini': 2,
+    'openai-o1-mini': 2,
+    'openai-4-turbo': 2,
+    'anthropic-3.5-sonnet': 1,
+    'anthropic-3-haiku': 1,
+    'anthropic-3-opus': 1,
+    'gemini-flash': 2,
+    'gemini-pro': 2,
+    'azure-openai': 2,
 };
 
 export type Providers = keyof typeof modelNames;
@@ -31,7 +43,7 @@ export function getModel(
     const anthropic = createAnthropic({ apiKey });
     const google = createGoogleGenerativeAI({ apiKey });
 
-    const modelMap: { [P in Providers]: () => LanguageModel | null } = {
+    const modelMap = {
         'openai-4o': () => openai('gpt-4o'),
         'openai-4o-mini': () => openai('gpt-4o-mini'),
         'openai-o1-mini': () => openai('o1-mini'),

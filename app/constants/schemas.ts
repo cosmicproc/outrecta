@@ -1,5 +1,6 @@
+import ISO6391 from 'iso-639-1';
 import { z } from 'zod';
-import { models } from './ai';
+import { modelNames, Providers } from './ai';
 
 export const generationSchema = z
     .object({
@@ -10,12 +11,14 @@ export const generationSchema = z
             })
             .max(1000, {
                 message: 'Topics cannot be longer than 1000 characters.',
-            }),
+            })
+            .transform((n) => n.trim()),
         questionCount: z.coerce
             .number({ message: 'Question count must be a number.' })
             .int({ message: 'Question count must be an integer.' })
             .min(1, { message: 'Question count cannot be smaller than 1.' })
             .max(50, { message: 'Question count cannot be more than 50.' }),
+        language: z.string().refine((n) => !(n in ISO6391.getAllNames())),
         testType: z.enum(['multiple-choice', 'open-ended']),
         difficulty: z.number().int().min(0).max(6),
         choiceCount: z.coerce
@@ -24,9 +27,7 @@ export const generationSchema = z
             .min(2, { message: 'Choice count cannot be smaller than 2.' })
             .max(8, { message: 'Choice count cannot be more than 8.' })
             .default(4),
-        model: z.enum(models as [string, ...string[]], {
-            message: 'Invalid model provider.',
-        }),
+        modelName: z.custom<Providers>((n) => n in modelNames),
         azureResourceName: z.string().optional(),
         azureDeploymentName: z.string().optional(),
         apiKey: z.string().min(1, { message: 'API key cannot be empty.' }),
@@ -39,17 +40,19 @@ export const generationSchema = z
             })
             .min(5, { message: 'Title cannot be shorter than 5 characters.' })
             .or(z.literal(''))
-            .optional(),
+            .optional()
+            .transform((n) => n?.trim()),
         customInstructions: z
             .string()
             .max(400, {
                 message:
                     'Custom instructions cannot be longer than 400 characters.',
             })
-            .optional(),
+            .optional()
+            .transform((n) => n?.trim()),
     })
     .superRefine((data, ctx) => {
-        if (data.model === 'azure-openai') {
+        if (data.modelName === 'azure-openai') {
             if (!data.azureResourceName) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
@@ -87,6 +90,11 @@ export const genQuestionSchema = (
                       .length(choiceCount)
                       .describe(
                           'The shuffled answer choices, with exactly one correct option.',
+                      )
+                      .transform((n) =>
+                          n.map((m) =>
+                              m.replace(/^\s*?\(?[a-zA-Z0-9]+[\),.]\s*/, ''),
+                          ),
                       ),
               }
             : {}),

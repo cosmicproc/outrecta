@@ -1,14 +1,8 @@
 import { Input, Select, SelectItem } from '@nextui-org/react';
-import {
-    Control,
-    FieldError,
-    FieldErrors,
-    UseFormRegister,
-    UseFormRegisterReturn,
-} from 'react-hook-form';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { z } from 'zod';
 import { modelNames } from '../constants/ai';
 import { generationSchema } from '../constants/schemas';
-import { z } from 'zod';
 
 export default function ModelOptionsFields({
     register,
@@ -24,9 +18,9 @@ export default function ModelOptionsFields({
             <Select
                 label="Select the model provider"
                 isRequired
-                isInvalid={!!errors.model}
-                errorMessage={errors.model?.message}
-                {...register('model')}
+                isInvalid={!!errors.modelName}
+                errorMessage={errors.modelName?.message}
+                {...register('modelName')}
             >
                 {Object.entries(modelNames).map(([key, value]) => (
                     <SelectItem key={key} value={key}>
