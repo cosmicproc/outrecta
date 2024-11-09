@@ -30,6 +30,7 @@
         "zod": "^3.23.8"
     },
     "devDependencies": {
+        "@tailwindcss/typography": "^0.5.15",
         "@types/dompurify": "^3.0.5",
         "@types/katex": "^0.16.7",
         "@types/node": "^22",

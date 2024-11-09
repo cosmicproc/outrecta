@@ -17,7 +17,7 @@ export default function Messages({
             )}
             {failed && (
                 <Card>
-                    <CardBody className="bg-red-100 dark:bg-red-950">
+                    <CardBody>
                         <div className="flex">
                             <CircleAlert className="mr-2 text-red-600 dark:text-red-300" />
                             Generation Failed. Please try again. Changing
@@ -28,9 +28,9 @@ export default function Messages({
             )}
             {watchCustomInstructions?.trim() && (
                 <Card>
-                    <CardBody className="bg-yellow-100 dark:bg-yellow-950">
+                    <CardBody>
                         <div className="flex">
-                            <TriangleAlert className="mr-2 text-yellow-700 dark:text-yellow-200" />
+                            <TriangleAlert className="mr-2 text-yellow-600 dark:text-yellow-300" />
                             Custom instructions are being used in advanced
                             settings.
                         </div>

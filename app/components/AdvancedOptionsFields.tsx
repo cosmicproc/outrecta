@@ -29,14 +29,13 @@ export default function AdvancedOptionsFields({
     watchTestType: string;
 }) {
     return (
-        <Accordion>
+        <Accordion variant="bordered">
             <AccordionItem
-                key="1"
                 aria-label="Advanced Options"
                 title="Advanced Options"
                 startContent={<Zap size={22} />}
             >
-                <div className="space-y-6">
+                <div className="space-y-6 mb-4">
                     <Controller
                         name="creativity"
                         control={control}

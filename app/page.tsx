@@ -31,6 +31,15 @@ export default function Home() {
         formState: { errors },
     } = useForm<z.infer<typeof generationSchema>>({
         resolver: zodResolver(generationSchema),
+        defaultValues: {
+            questionCount: 5,
+            language: 'English',
+            explainAnswers: true,
+            testType: 'multiple-choice',
+            difficulty: 3,
+            creativity: 50,
+            choiceCount: 4,
+        },
     });
 
     useEffect(() => {
@@ -42,15 +51,6 @@ export default function Home() {
                 return;
             } catch {}
         }
-        reset({
-            questionCount: 5,
-            language: 'English',
-            explainAnswers: true,
-            testType: 'multiple-choice',
-            difficulty: 3,
-            creativity: 50,
-            choiceCount: 4,
-        });
     }, [reset]);
 
     async function onSubmit(data: z.infer<typeof generationSchema>) {

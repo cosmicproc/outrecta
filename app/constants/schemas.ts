@@ -80,7 +80,7 @@ export const genQuestionSchema = (
             .string()
             .optional()
             .describe(
-                'Question materials like variables, code snippets, passages, etc. to be referenced in questionStatement. It must not contain any imperative sentence.',
+                'Question materials like variables, code snippets, passages, etc. to be referenced in questionStatement.',
             ),
         questionStatement: z.string(),
         ...(testType === 'multiple-choice'
@@ -102,10 +102,10 @@ export const genQuestionSchema = (
             .string()
             .describe(
                 (explainAnswers
-                    ? 'A rigorous explanation of the solution, separated into paragraphs by using </br></br>.'
+                    ? 'A rigorous and organized explanation of the solution.'
                     : 'The final answer of the question.') +
                     (testType === 'multiple-choice'
-                        ? " Indicate the letter (a, b, etc.) corresponding to the correct answer choice's position."
+                        ? " Indicate the letter (a, b, etc.) corresponding to the correct answer."
                         : ''),
             ),
     });

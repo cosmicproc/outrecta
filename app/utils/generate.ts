@@ -45,8 +45,8 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                 system: dedent`
                         You are a test generator and you will be provided with some info about the test to generate.
                         You must follow these guidelines:
-	                    - Use LaTeX with mhchem. Properly wrap LaTeX in delimeters ($,$$,\\(,\\[).
-	                    - Use Markdown for formatting.
+	                    - Use LaTeX with mhchem when appropriate. Properly wrap LaTeX (only LaTeX part) in delimeters (for example, $$ x^2 $$).
+	                    - Use Markdown (GFM) for formatting.
                         - All questions must be unique.
                         - Applied questions are highly preferred.
                     `,
@@ -85,6 +85,9 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
             ...newQuestions.slice(0, data.questionCount - questions.length),
         ];
         iteration++;
+    }
+    if (questions.length === 0) {
+        return { failed: true };
     }
 
     return {

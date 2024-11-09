@@ -36,6 +36,7 @@ export const katexExtension = {
         katex.renderToString(token.text, { throwOnError: false }),
 } as unknown as TokenizerAndRendererExtension;
 
+marked.use({ breaks: true, gfm: true });
 marked.use({
     extensions: [katexExtension],
 });
