@@ -1,4 +1,3 @@
-import ISO6391 from 'iso-639-1';
 import { z } from 'zod';
 import { modelNames, Providers } from './ai';
 
@@ -89,11 +88,6 @@ export const genQuestionSchema = (
                       .length(choiceCount)
                       .describe(
                           'The shuffled answer choices, with exactly one correct option.',
-                      )
-                      .transform((n) =>
-                          n.map((m) =>
-                              m.replace(/^\s*?\(?[a-zA-Z0-9]+[\),.]\s*/, ''),
-                          ),
                       ),
               }
             : {}),
@@ -104,7 +98,7 @@ export const genQuestionSchema = (
                     ? 'A rigorous and organized explanation of the solution.'
                     : 'The final answer of the question.') +
                     (testType === 'multiple-choice'
-                        ? " Indicate the letter (a, b, etc.) corresponding to the correct answer."
+                        ? ' Indicate the letter (a, b, etc.) corresponding to the correct answer.'
                         : ''),
             ),
     });

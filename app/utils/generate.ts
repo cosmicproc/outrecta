@@ -30,7 +30,6 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
         if (errors >= 5) {
             return { failed: true };
         }
-        let newQuestions = new Array();
         try {
             const generatedQuestions = await generateObject({
                 model,
@@ -63,7 +62,22 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
             });
             inputTokens += generatedQuestions.usage.promptTokens;
             outputTokens += generatedQuestions.usage.completionTokens;
-            newQuestions = generatedQuestions.object;
+            let newQuestions = generatedQuestions.object;
+
+            // Strip answer choice indicators from answer choices
+            newQuestions = newQuestions.map((question) => {
+                if (Array.isArray(question.answerChoices)) {
+                    question.answerChoices = question.answerChoices.map(
+                        (choice) =>
+                            choice.replace(/^\s*?\(?[a-zA-Z0-9]+[\),.]\s*/, ''),
+                    );
+                }
+                return question;
+            });
+
+            questions = questions.concat(
+                newQuestions.slice(0, data.questionCount - questions.length),
+            );
         } catch (error) {
             if (
                 APICallError.isInstance(error) ||
@@ -77,12 +91,9 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                     },
                 };
             }
+            console.error(error);
             errors++;
         }
-        questions = [
-            ...questions,
-            ...newQuestions.slice(0, data.questionCount - questions.length),
-        ];
         iteration++;
     }
     if (questions.length === 0) {
