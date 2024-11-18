@@ -33,7 +33,6 @@ export default function Home() {
         resolver: zodResolver(generationSchema),
         defaultValues: {
             questionCount: 5,
-            language: 'English',
             explainAnswers: true,
             testType: 'multiple-choice',
             difficulty: 3,

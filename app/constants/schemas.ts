@@ -18,7 +18,6 @@ export const generationSchema = z
             .int({ message: 'Question count must be an integer.' })
             .min(1, { message: 'Question count cannot be smaller than 1.' })
             .max(50, { message: 'Question count cannot be more than 50.' }),
-        language: z.string().refine((n) => !(n in ISO6391.getAllNames())),
         testType: z.enum(['multiple-choice', 'open-ended']),
         difficulty: z.number().int().min(0).max(6),
         choiceCount: z.coerce

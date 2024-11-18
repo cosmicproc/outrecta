@@ -52,7 +52,6 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                     `,
                 prompt: JSON.stringify({
                     questionCount: data.questionCount - questions.length,
-                    language: data.language,
                     topics: data.topics
                         .split(',')
                         .map((topic) => topic.trim().toLowerCase()),

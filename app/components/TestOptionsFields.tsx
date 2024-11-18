@@ -1,6 +1,4 @@
 import {
-    Autocomplete,
-    AutocompleteItem,
     Input,
     Radio,
     RadioGroup,
@@ -8,7 +6,6 @@ import {
     Textarea,
     Tooltip,
 } from '@nextui-org/react';
-import ISO6391 from 'iso-639-1';
 import { Frown, Info, Smile } from 'lucide-react';
 import {
     Control,
@@ -59,17 +56,6 @@ export default function TestOptionFields({
                 errorMessage={errors.questionCount?.message}
                 {...register('questionCount')}
             />
-            <Autocomplete
-                label="Test language"
-                isRequired
-                {...register('language')}
-            >
-                {ISO6391.getAllNames().map((lang) => (
-                    <AutocompleteItem key={lang} value={lang}>
-                        {lang}
-                    </AutocompleteItem>
-                ))}
-            </Autocomplete>
             <Controller
                 name="testType"
                 control={control}
