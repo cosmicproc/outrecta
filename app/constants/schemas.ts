@@ -74,13 +74,7 @@ export const genQuestionSchema = (
     explainAnswers: boolean,
 ) =>
     z.object({
-        questionMaterial: z
-            .string()
-            .optional()
-            .describe(
-                'Question materials like variables, code snippets, passages, etc. to be referenced in questionStatement.',
-            ),
-        questionStatement: z.string(),
+        questionText: z.string(),
         ...(testType === 'multiple-choice'
             ? {
                   answerChoices: z
@@ -95,7 +89,7 @@ export const genQuestionSchema = (
             .string()
             .describe(
                 (explainAnswers
-                    ? 'A rigorous and organized explanation of the solution.'
+                    ? 'A rigorous explanation of the solution.'
                     : 'The final answer of the question.') +
                     (testType === 'multiple-choice'
                         ? ' Indicate the letter (a, b, etc.) corresponding to the correct answer.'

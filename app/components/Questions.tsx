@@ -12,17 +12,12 @@ export default function Questions({
         <ol className="mt-10 list-decimal marker:font-bold list-inside print:text-xs">
             {questions.map((question, index) => (
                 <div className="print:break-inside-avoid" key={index}>
-                    {'questionMaterial' in question && (
-                        <p className="mb-5">
-                            <RichContent content={question.questionMaterial} />
-                        </p>
-                    )}
                     <li className="mb-12 print:mb-8">
-                        <RichContent content={question.questionStatement} />
-                        {!('answerChoices' in question) && showSpaces && (
+                        <RichContent content={question.questionText} />
+                        {!question.answerChoices && showSpaces && (
                             <div className="h-32"></div>
                         )}
-                        {'answerChoices' in question && (
+                        {question.answerChoices && (
                             <ol className="letter-list mt-3">
                                 {question.answerChoices.map(
                                     (answerChoice, index) => (
