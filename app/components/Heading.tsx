@@ -1,7 +1,7 @@
 export default function Heading() {
     return (
-        <div className="text-center m-auto my-8">
-            <h1 className="text-3xl mb-2 font-black">Outrecta</h1>
+        <div className="m-auto my-8 text-center">
+            <h1 className="mb-2 text-3xl font-black">Outrecta</h1>
             <p>
                 Generate tests about any topic using to power of language
                 models!

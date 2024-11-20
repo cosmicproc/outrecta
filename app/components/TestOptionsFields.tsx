@@ -44,8 +44,7 @@ export default function TestOptionFields({
                         content={
                             <span className="text-center">
                                 The more questions, the longer and more
-                                expensive it will be to generate
-                                <br /> (also chance of failure will increase).
+                                expensive it will be to generate.
                             </span>
                         }
                     >

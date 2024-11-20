@@ -22,7 +22,7 @@ export default function Answersheet() {
         return (
             <main className={`${customFont.className} my-8`}>
                 <div className="text-center">
-                    <h1 className="font-bold text-3xl mb-4 print:text-xl">
+                    <h1 className="mb-4 text-3xl font-bold print:text-xl">
                         Answersheet: <br />
                         {testDocument.title}
                     </h1>

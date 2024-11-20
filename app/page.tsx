@@ -84,7 +84,7 @@ export default function Home() {
             <main>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
-                    className="space-y-6 mb-4"
+                    className="mb-4 space-y-6"
                 >
                     <TestOptionFields
                         register={register}

@@ -35,7 +35,7 @@ export default function AdvancedOptionsFields({
                 title="Advanced Options"
                 startContent={<Zap size={22} />}
             >
-                <div className="space-y-6 mb-4">
+                <div className="mb-4 space-y-6">
                     <Controller
                         name="creativity"
                         control={control}

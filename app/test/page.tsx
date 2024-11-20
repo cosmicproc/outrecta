@@ -29,10 +29,10 @@ export default function Test() {
         return (
             <main className={`${customFont.className} my-8`}>
                 <div className="text-center">
-                    <h1 className="font-bold text-3xl mb-4 print:text-xl">
+                    <h1 className="mb-4 text-3xl font-bold print:text-xl">
                         {testDocument.title}
                     </h1>
-                    <div className="print:hidden space-x-4 ">
+                    <div className="space-x-4 print:hidden">
                         <PrintButton />
                         {!testDocument.questions[0].answerChoices && (
                             <Button

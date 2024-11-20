@@ -12,7 +12,7 @@ export default function Providers({
     const router = useRouter();
 
     return (
-        <NextUIProvider navigate={router.push} className="flex flex-col grow">
+        <NextUIProvider navigate={router.push} className="flex grow flex-col">
             <ThemeProvider attribute="class">{children}</ThemeProvider>
         </NextUIProvider>
     );

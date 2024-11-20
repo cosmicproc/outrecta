@@ -2,7 +2,7 @@ import { Link } from '@nextui-org/react';
 
 export default function Footer() {
     return (
-        <footer className="text-center py-8 mt-auto print:hidden">
+        <footer className="mt-auto py-8 text-center print:hidden">
             <div className="mb-1">
                 Created by{' '}
                 <Link isExternal href="https://github.com/cosmicproc">

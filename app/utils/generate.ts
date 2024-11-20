@@ -38,18 +38,17 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                     data.explainAnswers,
                 ),
                 system: dedent`
-                        You are a test generator and you will be provided with some info about a test to generate.
-                        You must follow these guidelines:
-	                    - Use LaTeX with mhchem when appropriate. Properly wrap LaTeX in delimeters ($$).
-	                    - Use Markdown for formatting.
-                        - All questions must be unique.
-                        - Applied questions are highly preferred.
+                        You are a question generator, tasked with creating relevant questions based on the provided information. Follow these guidelines:
+                        - Formatting Rules:
+                            - Use LaTeX, mhchem, Markdown, and HTML as needed.
+                        	- Enclose LaTeX and mhchem content in proper delimiters ($$ ... $$).
+                        	- If HTML should not render, wrap it in a code block using backticks (\`\`\` or \`).
+                            - Do not escape the backslash in line breaks (\n).
+                        - Question Style: Focus on creating unique applied questions that encourage practical thinking and problem-solving.
                     `,
                 prompt: JSON.stringify({
                     questionCount: data.questionCount - questions.length,
-                    topics: data.topics
-                        .split(',')
-                        .map((topic) => topic.trim().toLowerCase()),
+                    topics: data.topics.split(',').map((topic) => topic.trim()),
                     difficulty: mapDifficultyToText(data.difficulty),
                     ...(data.customInstructions && {
                         customInstructions: data.customInstructions,
@@ -75,7 +74,6 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                 newQuestions.slice(0, data.questionCount - questions.length),
             );
         } catch (error) {
-            console.error(error);
             if (
                 APICallError.isInstance(error) ||
                 RetryError.isInstance(error)

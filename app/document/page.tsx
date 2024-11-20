@@ -20,16 +20,16 @@ export default function Document() {
 
     return (
         <main>
-            <div className="text-center mt-8">
-                <h1 className="text-3xl mb-4 font-black">Outrecta</h1>
+            <div className="mt-8 text-center">
+                <h1 className="mb-4 text-3xl font-black">Outrecta</h1>
                 <h3 className="text-xl font-medium">Your test is ready!</h3>
-                <div className="text-gray-600 dark:text-gray-400 text-sm min-h-5">
+                <div className="min-h-5 text-sm text-gray-600 dark:text-gray-400">
                     {testDocument?.inputTokens &&
                         testDocument?.outputTokens &&
                         `Used ${testDocument.inputTokens + testDocument.outputTokens} tokens (${testDocument.inputTokens} in, ${testDocument.outputTokens} out)`}
                 </div>
 
-                <div className="space-x-4 space-y-4 mt-2">
+                <div className="mt-2 space-x-4 space-y-4">
                     <Button
                         href="/test"
                         as={Link}
@@ -50,7 +50,7 @@ export default function Document() {
                     </Button>
                 </div>
 
-                <div className="flex justify-center my-6">
+                <div className="my-6 flex justify-center">
                     <Card className="sm:w-2/3">
                         <CardBody>
                             <p className="mb-4">

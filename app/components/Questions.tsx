@@ -9,7 +9,7 @@ export default function Questions({
     showSpaces: boolean;
 }) {
     return (
-        <ol className="mt-10 list-decimal marker:font-bold list-inside print:text-xs">
+        <ol className="mt-10 list-inside list-decimal marker:font-bold print:text-xs">
             {questions.map((question, index) => (
                 <div className="print:break-inside-avoid" key={index}>
                     <li className="mb-12 print:mb-8">

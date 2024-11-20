@@ -9,7 +9,7 @@ export default function RichContent({ content }: { content: string }) {
 
     return (
         <span
-            className="prose dark:prose-invert text-gray-950 dark:text-gray-100 print:text-xs [&>p:first-child]:inline"
+            className="prose text-gray-950 dark:prose-invert dark:text-gray-100 print:text-xs [&>p:first-child]:inline"
             dangerouslySetInnerHTML={{
                 __html: rendered,
             }}

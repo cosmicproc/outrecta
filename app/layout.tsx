@@ -15,10 +15,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className="min-h-[100dvh] flex flex-col">
+            <body className="flex min-h-[100dvh] flex-col">
                 <Providers>
-                    <div className="justify-center flex grow">
-                        <div className="sm:w-1/2 w-5/6 print:w-5/6">
+                    <div className="flex grow justify-center">
+                        <div className="w-5/6 sm:w-1/2 print:w-5/6">
                             {children}
                         </div>
                     </div>

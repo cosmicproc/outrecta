@@ -74,14 +74,18 @@ export const genQuestionSchema = (
     explainAnswers: boolean,
 ) =>
     z.object({
-        questionText: z.string(),
+        questionText: z
+            .string()
+            .describe(
+                'The problem statement. Ensure clarity and avoid ambiguity.',
+            ),
         ...(testType === 'multiple-choice'
             ? {
                   answerChoices: z
                       .array(z.string())
                       .length(choiceCount)
                       .describe(
-                          'The shuffled answer choices, with exactly one correct option.',
+                          'An array of answer options. The choices must be shuffled and include exactly one correct option.',
                       ),
               }
             : {}),
@@ -89,10 +93,10 @@ export const genQuestionSchema = (
             .string()
             .describe(
                 (explainAnswers
-                    ? 'A rigorous explanation of the solution.'
-                    : 'The final answer of the question.') +
+                    ? 'A thorough and well-structured explanation of the solution, with step-by-step reasoning where appropriate. Ensure the answer is clearly formatted and easy to follow.'
+                    : 'The final answer to the question.') +
                     (testType === 'multiple-choice'
-                        ? ' Indicate the letter (a, b, etc.) corresponding to the correct answer.'
+                        ? ' Specify the correct answer choice by its letter (e.g., "a", "b").'
                         : ''),
             ),
     });
