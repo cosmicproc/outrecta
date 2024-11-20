@@ -1,7 +1,7 @@
 import { APICallError, generateObject, RetryError } from 'ai';
 import dedent from 'dedent';
 import { z } from 'zod';
-import { getModel, modelMaxTemps } from '../constants/ai';
+import { getModel } from '../constants/ai';
 import { generationSchema, genQuestionSchema } from '../constants/schemas';
 import { mapDifficultyToText, truncate } from './text';
 
@@ -29,8 +29,6 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
         try {
             const generatedQuestions = await generateObject({
                 model,
-                temperature:
-                    (data.creativity / 100) * modelMaxTemps[data.modelName],
                 output: 'array',
                 schema: genQuestionSchema(
                     data.choiceCount,

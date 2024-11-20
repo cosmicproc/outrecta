@@ -29,7 +29,6 @@ export const generationSchema = z
         azureResourceName: z.string().optional(),
         azureDeploymentName: z.string().optional(),
         apiKey: z.string().min(1, { message: 'API key cannot be empty.' }),
-        creativity: z.number().int().min(0).max(100),
         explainAnswers: z.boolean(),
         manualTitle: z
             .string()

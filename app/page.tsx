@@ -36,7 +36,6 @@ export default function Home() {
             explainAnswers: true,
             testType: 'multiple-choice',
             difficulty: 3,
-            creativity: 50,
             choiceCount: 4,
         },
     });

@@ -16,19 +16,6 @@ export const modelNames = {
     'azure-openai': 'Azure OpenAI',
 };
 
-export const modelMaxTemps = {
-    'openai-4o': 2,
-    'openai-4o-mini': 2,
-    'openai-o1-mini': 2,
-    'openai-4-turbo': 2,
-    'anthropic-3.5-sonnet': 1,
-    'anthropic-3-haiku': 1,
-    'anthropic-3-opus': 1,
-    'gemini-flash': 2,
-    'gemini-pro': 2,
-    'azure-openai': 2,
-};
-
 export type Providers = keyof typeof modelNames;
 
 export const models = Object.keys(modelNames) as Providers[];

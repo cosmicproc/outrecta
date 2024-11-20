@@ -36,23 +36,6 @@ export default function AdvancedOptionsFields({
                 startContent={<Zap size={22} />}
             >
                 <div className="mb-4 space-y-6">
-                    <Controller
-                        name="creativity"
-                        control={control}
-                        render={({ field }) => (
-                            <Slider
-                                label="Creativity"
-                                color="primary"
-                                step={1}
-                                maxValue={100}
-                                minValue={0}
-                                defaultValue={50}
-                                startContent={<Apple />}
-                                endContent={<Candy />}
-                                {...field}
-                            />
-                        )}
-                    />
                     <Switch {...register('explainAnswers')}>
                         Explain the answers
                     </Switch>
