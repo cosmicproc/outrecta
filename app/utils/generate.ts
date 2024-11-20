@@ -22,14 +22,10 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
     let questions = new Array();
     // Track iterations and errors just in case and short-circuit if sth goes wrong.
     let iteration = 0;
-    let errors = 0;
     while (
         questions.length < data.questionCount &&
         iteration <= data.questionCount
     ) {
-        if (errors >= 5) {
-            return { failed: true };
-        }
         try {
             const generatedQuestions = await generateObject({
                 model,
@@ -44,7 +40,7 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                 system: dedent`
                         You are a test generator and you will be provided with some info about a test to generate.
                         You must follow these guidelines:
-	                    - Use LaTeX with mhchem when appropriate. Properly wrap LaTeX in delimeters.
+	                    - Use LaTeX with mhchem when appropriate. Properly wrap LaTeX in delimeters ($$).
 	                    - Use Markdown for formatting.
                         - All questions must be unique.
                         - Applied questions are highly preferred.
@@ -79,6 +75,7 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                 newQuestions.slice(0, data.questionCount - questions.length),
             );
         } catch (error) {
+            console.error(error);
             if (
                 APICallError.isInstance(error) ||
                 RetryError.isInstance(error)
@@ -91,8 +88,6 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                     },
                 };
             }
-            console.error(error);
-            errors++;
         }
         iteration++;
     }

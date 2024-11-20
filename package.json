@@ -10,15 +10,16 @@
         "format": "prettier -w ."
     },
     "dependencies": {
-        "@ai-sdk/anthropic": "^0.0.56",
-        "@ai-sdk/azure": "^0.0.52",
-        "@ai-sdk/google": "^0.0.55",
-        "@ai-sdk/openai": "^0.0.72",
+        "@ai-sdk/anthropic": "^1.0.0",
+        "@ai-sdk/azure": "^1.0.2",
+        "@ai-sdk/google": "^1.0.0",
+        "@ai-sdk/groq": "^1.0.1",
+        "@ai-sdk/openai": "^1.0.1",
         "@hookform/resolvers": "^3.9.1",
         "@nextui-org/react": "^2.4.8",
-        "ai": "^3.4.33",
+        "ai": "^4.0.1",
         "dedent": "^1.5.3",
-        "dompurify": "^3.2.0",
+        "dompurify": "^3.2.1",
         "katex": "^0.16.11",
         "marked": "^15.0.1",
         "next": "^15.0.3",
@@ -30,7 +31,7 @@
     },
     "devDependencies": {
         "@tailwindcss/typography": "^0.5.15",
-        "@types/dompurify": "^3.0.5",
+        "@types/dompurify": "^3.2.0",
         "@types/katex": "^0.16.7",
         "@types/node": "^22",
         "@types/react": "^18",
@@ -43,6 +44,6 @@
         "prettier": "^3.3.3",
         "tailwindcss": "^3.4.15",
         "typescript": "^5",
-        "vercel": "^39.0.2"
+        "vercel": "^39.1.0"
     }
 }
