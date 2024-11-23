@@ -37,12 +37,10 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                 ),
                 system: dedent`
                         You are a question generator, tasked with creating relevant questions based on the provided information. Follow these guidelines:
-                        - Formatting Rules:
-                            - Use LaTeX, mhchem, Markdown, and HTML as needed.
-                        	- Enclose LaTeX and mhchem content in proper delimiters ($$ ... $$).
-                        	- If HTML should not render, wrap it in a code block using backticks (\`\`\` or \`).
-                            - Do not escape the backslash in line breaks (\n).
-                        - Question Style: Focus on creating unique applied questions that encourage practical thinking and problem-solving.
+                        - Use LaTeX, mhchem, Markdown, and HTML as needed.
+                        - Wrap any LaTeX and mhchem content in proper delimiters (e.g, $$...$$).
+                        - Escape all backslashes except for line breaks. Use \n for line breaks.
+                        - If some HTML should not render, wrap it in a code block using backticks (\`\`\` or \`).
                     `,
                 prompt: JSON.stringify({
                     questionCount: data.questionCount - questions.length,

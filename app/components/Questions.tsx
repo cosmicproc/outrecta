@@ -18,10 +18,17 @@ export default function Questions({
                             <div className="h-32"></div>
                         )}
                         {question.answerChoices && (
-                            <ol className="letter-list mt-3">
+                            <ol className="letter-list mt-4">
                                 {question.answerChoices.map(
                                     (answerChoice, index) => (
-                                        <li key={index}>
+                                        <li
+                                            key={index}
+                                            className={
+                                                answerChoice.match(/\n/)
+                                                    ? 'mb-3'
+                                                    : ''
+                                            }
+                                        >
                                             <RichContent
                                                 content={answerChoice}
                                             />

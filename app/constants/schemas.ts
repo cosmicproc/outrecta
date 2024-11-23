@@ -92,7 +92,7 @@ export const genQuestionSchema = (
             .string()
             .describe(
                 (explainAnswers
-                    ? 'A thorough and well-structured explanation of the solution, with step-by-step reasoning where appropriate. Ensure the answer is clearly formatted and easy to follow.'
+                    ? 'A thorough and well-structured explanation of the solution, with step-by-step reasoning with lists where appropriate. Ensure the answer is clearly formatted and easy to follow.'
                     : 'The final answer to the question.') +
                     (testType === 'multiple-choice'
                         ? ' Specify the correct answer choice by its letter (e.g., "a", "b").'
