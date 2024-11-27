@@ -60,7 +60,7 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                 if (Array.isArray(question.answerChoices)) {
                     question.answerChoices = question.answerChoices.map(
                         (choice) =>
-                            choice.replace(/^\s*?\(?[a-zA-Z0-9]+[\),.]\s*/, ''),
+                            choice.replace(/^\s*[a-zA-Z0-9][\),.]\s*/, ''),
                     );
                 }
                 return question;
