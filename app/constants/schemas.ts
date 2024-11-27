@@ -84,7 +84,7 @@ export const genQuestionSchema = (
                       .array(z.string())
                       .length(choiceCount)
                       .describe(
-                          'An array of answer options. The choices must be shuffled and include exactly one correct option.',
+                          'An array of answer options. The choices must be shuffled and include exactly one correct option. Do not put index indicators (e.g., "a)", "b)").',
                       ),
               }
             : {}),
@@ -92,10 +92,10 @@ export const genQuestionSchema = (
             .string()
             .describe(
                 (explainAnswers
-                    ? 'A thorough and well-structured explanation of the solution, with step-by-step reasoning with lists where appropriate. Ensure the answer is clearly formatted and easy to follow.'
+                    ? 'A thorough and well-structured explanation of the solution, with step-by-step reasoning with lists where appropriate. Ensure the answer is neatly formatted.'
                     : 'The final answer to the question.') +
                     (testType === 'multiple-choice'
-                        ? ' Specify the correct answer choice by its letter (e.g., "a", "b").'
+                        ? ' Specify the letter (a, b, c, etc.) that corresponds to the correct answer choice.'
                         : ''),
             ),
     });

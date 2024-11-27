@@ -11,13 +11,13 @@
     },
     "dependencies": {
         "@ai-sdk/anthropic": "^1.0.2",
-        "@ai-sdk/azure": "^1.0.5",
-        "@ai-sdk/google": "^1.0.3",
+        "@ai-sdk/azure": "^1.0.7",
+        "@ai-sdk/google": "^1.0.4",
         "@ai-sdk/groq": "^1.0.3",
-        "@ai-sdk/openai": "^1.0.4",
+        "@ai-sdk/openai": "^1.0.5",
         "@hookform/resolvers": "^3.9.1",
         "@nextui-org/react": "^2.4.8",
-        "ai": "^4.0.3",
+        "ai": "^4.0.6",
         "dedent": "^1.5.3",
         "dompurify": "^3.2.1",
         "katex": "^0.16.11",
@@ -39,12 +39,12 @@
         "eslint": "^9",
         "eslint-config-next": "15.0.3",
         "eslint-config-prettier": "^9.1.0",
-        "lucide-react": "^0.460.0",
+        "lucide-react": "^0.461.0",
         "postcss": "^8",
-        "prettier": "^3.3.3",
+        "prettier": "^3.4.1",
         "prettier-plugin-tailwindcss": "^0.6.9",
         "tailwindcss": "^3.4.15",
         "typescript": "^5",
-        "vercel": "^39.1.1"
+        "vercel": "^39.1.2"
     }
 }

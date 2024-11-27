@@ -1,7 +1,7 @@
 import { APICallError, generateObject, RetryError } from 'ai';
 import dedent from 'dedent';
 import { z } from 'zod';
-import { getModel } from '../constants/ai';
+import { getModel, modelMaxTemps } from '../constants/ai';
 import { generationSchema, genQuestionSchema } from '../constants/schemas';
 import { mapDifficultyToText, truncate } from './text';
 
@@ -35,12 +35,16 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
                     data.testType,
                     data.explainAnswers,
                 ),
+                temperature: modelMaxTemps[data.modelName] / 2,
                 system: dedent`
-                        You are a question generator, tasked with creating relevant questions based on the provided information. Follow these guidelines:
-                        - Use LaTeX, mhchem, Markdown, and HTML as needed.
-                        - Wrap any LaTeX and mhchem content in proper delimiters (e.g, $$...$$).
-                        - Escape all backslashes except for line breaks. Use \n for line breaks.
-                        - If some HTML should not render, wrap it in a code block using backticks (\`\`\` or \`).
+                        You are a question generator, tasked with creating questions based on the provided information. Follow the guidelines below.
+                        Formatting Guidelines:
+                        - Use Markdown for formatting.
+                        - Use LaTeX for mathematical expressions, e.g., $$E = mc^2$$.
+                        - Use mhchem LaTeX extension for chemical expressions, e.g., $$\\ce{H2O}$$.
+                        Content Guidelines:
+                        - Practical questions that test the understanding of topics and encourage learning are highly preferred.
+                        - You can mix and match topics in questions, but make sure they are relevant to the provided topics.
                     `,
                 prompt: JSON.stringify({
                     questionCount: data.questionCount - questions.length,
@@ -54,17 +58,6 @@ export default async function generate(data: z.infer<typeof generationSchema>) {
             inputTokens += generatedQuestions.usage.promptTokens;
             outputTokens += generatedQuestions.usage.completionTokens;
             let newQuestions = generatedQuestions.object;
-
-            // Strip answer choice indicators from answer choices
-            newQuestions = newQuestions.map((question) => {
-                if (Array.isArray(question.answerChoices)) {
-                    question.answerChoices = question.answerChoices.map(
-                        (choice) =>
-                            choice.replace(/^\s*[a-zA-Z0-9][\),.]\s*/, ''),
-                    );
-                }
-                return question;
-            });
 
             questions = questions.concat(
                 newQuestions.slice(0, data.questionCount - questions.length),
