@@ -1,0 +1,10 @@
+{
+    "projects": [
+        {
+            "title": "Outrecta Tests",
+            "description": "Outrecta Tests is an easy-to-use AI tool for generating tests on any topic.",
+            "website": "https://tests.outrecta.com",
+            "github": "https://github.com/cosmicproc/outrecta-tests"
+        }
+    ]
+}
